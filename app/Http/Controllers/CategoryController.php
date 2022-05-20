@@ -44,10 +44,7 @@ class CategoryController extends Controller
 
     public function show($id)
     {
-        // $all = DB::table('tbl_category_product')->get();
-        // //$all = Category::query()->get();
-        // $manager = view('admin.categories.index')->with('all', $all);
-        // return view('admin_layout')->with('admin.categories.index', $manager);
+        
 
     }
 

@@ -45,4 +45,8 @@ class AdminController extends Controller
         return Redirect::to('/admin');
         //return view('admin_login');
     }
+
+    public function admin(){
+        return view('admin.dashboard');
+    }
 }
