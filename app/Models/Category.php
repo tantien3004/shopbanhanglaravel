@@ -12,8 +12,8 @@ class Category extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        '*'
+        'name', 'desc', 'status'
     ];
 
-    protected $table = 'users';
+    protected $table = 'tbl_category_product';
 }

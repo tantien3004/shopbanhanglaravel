@@ -7,7 +7,7 @@
             Liệt kê danh mục sản phẩm
         </div>
         <div class="row w3-res-tb">
-            <div class="col-sm-5 m-b-xs">
+            <div class="col-sm-6 m-b-xs">
                 <select class="input-sm form-control w-sm inline v-middle">
                     <option value="0">Bulk action</option>
                     <option value="1">Delete selection</option>
@@ -16,8 +16,7 @@
                 </select>
                 <button class="btn btn-sm btn-default">Apply</button>
             </div>
-            <div class="col-sm-4"></div>
-            <div class="col-sm-3">
+            <div class="col-sm-6">
                 <div class="input-group">
                     <div class="input-group">
                         <input type="text" class="input-sm form-control" placeholder="Search">
@@ -27,7 +26,7 @@
                     </div>
                 </div>
             </div>
-            <div class="table-responsive">
+            <div>
                 <table class="table table-striped b-t b-light">
                     <thead>
                         <tr>
@@ -38,24 +37,35 @@
                             </th>
                             <th>Tên danh mục</th>
                             <th>Hiển thị</th>
-                            <th>Ngày thêm</th>
                             <th style="width:30px"></th>
                         </tr>
                     </thead>
 
                     <tbody>
+                        @foreach($categories as $key => $cate_pro)
                         <tr>
                             <td><label class="i-checks m-b-none"><input type="checkbox" name="post[]"><i></i></label></td>
-                            <td>Idrawfast prototype design prototype design prototype design prototype design prototype design</td>
-                            <td><span class="text-ellipsis">Ẩn/Hiện thị</span> </td>
-                            <td><span class="text-ellipsis">19.05.2022</span></td>
+                            <td>{{ $cate_pro->name }}</td>
+                            <td><span class="text-ellipsis">
+                                <?php
+                                if ($cate_pro->status==0)
+                                {
+                                    echo 'Ẩn';
+                                }
+                                else {
+                                    echo 'Hiển thị';
+                                }
+                                ?>
+                                </span> </td>
+                            
                             <td>
-                                < href="" class="active" ui-toggle-class="">
+                                <a href="" class="active" ui-toggle-class="">
                                     <i class="fa fa-pencil-square-o text success text-active"></i>
                                     <i class="fa fa-times text-danger text"></i>
                                 </a>
                             </td>
                         </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>
@@ -67,10 +77,10 @@
                     <div class="col-sm-7 text-right text-center-xs">
                         <ul class="pagination pagination-sm m-t-none m-b-none" >
                             <li><a><i class="fa fa-chevron-left"></i></a></li>
-                            <li><a></a>1</li>
-                            <li><a></a>2</li>
-                            <li><a></a>3</li>
-                            <li><a></a>4</li>
+                            <li><a>1</a></li>
+                            <li><a>2</a></li>
+                            <li><a>3</a></li>
+                            <li><a>4</a></li>
                             <li><a><i class="fa fa-chevron-right"></i></a></li>
                         </ul>
                     </div>

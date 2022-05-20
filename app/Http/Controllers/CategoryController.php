@@ -1,9 +1,19 @@
 <?php
 
 namespace App\Http\Controllers;
+use Illuminate\Support\Facades\DB;
+use App\Http\Requests;
+use Illuminate\Contracts\Session\Session as SessionSession;
+use Illuminate\Routing\Redirector;
+use Session;
+use Illuminate\Support\Facades\Redirect;
+session_start();
+
 
 use Illuminate\Http\Request;
 use App\Models\Category;
+use Illuminate\Support\Facades\Redis;
+use Illuminate\Support\Facades\Session as FacadesSession;
 
 class CategoryController extends Controller
 {
@@ -21,11 +31,23 @@ class CategoryController extends Controller
 
     public function store(Request $request)
     {
+        $data = array();
+        $data['name'] = $request->category_product_name;
+        $data['desc'] = $request->category_product_desc;
+        $data['status'] = $request->category_product_status;
 
+
+        DB::table('tbl_category_product')->insert($data);
+        Session::put('message','Thêm danh mục sản phẩm thành công');
+        return Redirect::to('/categories/create');
     }
 
     public function show($id)
     {
+        // $all = DB::table('tbl_category_product')->get();
+        // //$all = Category::query()->get();
+        // $manager = view('admin.categories.index')->with('all', $all);
+        // return view('admin_layout')->with('admin.categories.index', $manager);
 
     }
 

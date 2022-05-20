@@ -21,12 +21,12 @@ Route::get('/', [HomeController::class, 'index']);
 Route::get('/trang-chu', [HomeController::class, 'index']);
 
 Route::prefix('categories')->group( function() {
-    Route::get('/', [CategoryController::class, 'index']);
+    Route::get('/index', [CategoryController::class, 'index']);
     Route::get('/{id}/show', [CategoryController::class, 'show']);
     Route::get('/{id}/edit', [CategoryController::class, 'edit']);
     Route::get('/create', [CategoryController::class, 'create']);
     Route::put('/{id}', [CategoryController::class, 'update']);
-    Route::post('/', [CategoryController::class, 'store']);
+    Route::post('/store', [CategoryController::class, 'store']);
     Route::delete('/{id}', [CategoryController::class, 'destroy']);
 });
 
