@@ -12,7 +12,7 @@ class Category extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'name', 'desc', 'status'
+        'id', 'name', 'desc', 'status'
     ];
 
     protected $table = 'tbl_category_product';

@@ -2,18 +2,20 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\DB;
-use App\Http\Requests;
-use Illuminate\Contracts\Session\Session as SessionSession;
-use Illuminate\Routing\Redirector;
-use Session;
+// use App\Http\Requests;
+// use Illuminate\Contracts\Session\Session as SessionSession;
+// use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Redirect;
-session_start();
 
 
 use Illuminate\Http\Request;
 use App\Models\Category;
-use Illuminate\Support\Facades\Redis;
-use Illuminate\Support\Facades\Session as FacadesSession;
+
+
+use Illuminate\Support\Facades\Session;
+
+
+// use Illuminate\Support\Str;
 
 class CategoryController extends Controller
 {
@@ -24,13 +26,18 @@ class CategoryController extends Controller
         return view('admin.categories.index')->with('categories', $categories);
     }
 
+    
+    
     public function create()
     {
         return view('admin.categories.create');
     }
 
+    
+    
     public function store(Request $request)
     {
+        //lưu ý không làm như này
         $data = array();
         $data['name'] = $request->category_product_name;
         $data['desc'] = $request->category_product_desc;
@@ -38,28 +45,73 @@ class CategoryController extends Controller
 
 
         DB::table('tbl_category_product')->insert($data);
+        // $category = Category::query()->get();
+        // $data = $request->only('name', 'desc', 'status');
+        // $categories->insert($data);
         Session::put('message','Thêm danh mục sản phẩm thành công');
         return Redirect::to('/categories/create');
     }
 
+    
+    
     public function show($id)
     {
         
 
     }
 
+    
+    
+    
     public function edit($id)
     {
+        $category = Category::query()->findOrFail($id);
 
+        return view('admin.categories.edit')->with('category', $category);
     }
 
+    
+    
+    
+    
     public function update($id, Request $request)
     {
-
+        $category = Category::query()->findOrFail($id);
+        $data = $request->only('name', 'desc');
+        $category->update($data);
+        
+        Session::put('message', 'Cập nhật thành công');
+        return redirect(route('index'));
     }
 
+    
+    
+    
+    
+    
     public function destroy($id)
     {
+        $category = Category::query()->findOrFail($id)->delete();
 
+
+        Session::put('message', 'Xóa danh mục sản phẩm thành công');
+        return Redirect(route('index'));
+    }
+
+    
+    
+    
+    
+    
+    public function changeStatus($id)
+    {
+        $category = Category::query()->findOrFail($id);
+        $status = 1;
+        if($category->status == 1) {
+            $status = 0;
+        }
+        $category->update(['status' => $status]);
+
+        return redirect(route('index'));
     }
 }

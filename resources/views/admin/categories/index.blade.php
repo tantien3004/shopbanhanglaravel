@@ -7,6 +7,7 @@
             Liệt kê danh mục sản phẩm
         </div>
         <div class="row w3-res-tb">
+            
             <div class="col-sm-6 m-b-xs">
                 <select class="input-sm form-control w-sm inline v-middle">
                     <option value="0">Bulk action</option>
@@ -17,6 +18,7 @@
                 <button class="btn btn-sm btn-default">Apply</button>
             </div>
             <div class="col-sm-6">
+                
                 <div class="input-group">
                     <div class="input-group">
                         <input type="text" class="input-sm form-control" placeholder="Search">
@@ -27,7 +29,11 @@
                 </div>
             </div>
             <div>
+                
                 <table class="table table-striped b-t b-light">
+
+                    
+
                     <thead>
                         <tr>
                             <th style="width:20px;">
@@ -42,27 +48,38 @@
                     </thead>
 
                     <tbody>
-                        @foreach($categories as $key => $cate_pro)
+                        @foreach($categories as $category)
                         <tr>
                             <td><label class="i-checks m-b-none"><input type="checkbox" name="post[]"><i></i></label></td>
-                            <td>{{ $cate_pro->name }}</td>
-                            <td><span class="text-ellipsis">
+                            <td>{{ $category->name }}</td>
+                            <td>
+                                <span class="text-ellipsis">
                                 <?php
-                                if ($cate_pro->status==0)
+                                if ($category->status==1)
                                 {
-                                    echo 'Ẩn';
-                                }
+                                    ?>
+                                    <a href="{{ route('changeStatus', ['id' => $category->id]) }}"><span class="fa fa-thumbs-up"></span></a>
+                                    <?php }
                                 else {
-                                    echo 'Hiển thị';
+                                    ?>
+                                    <a href="{{ route('changeStatus', ['id' => $category->id]) }}"><span class="fa fa-thumbs-down"></span></a>
+                                    
+                                    <?php
                                 }
                                 ?>
-                                </span> </td>
-                            
+                                </span>
+                            </td>
                             <td>
-                                <a href="" class="active" ui-toggle-class="">
+                                <a href="{{ route('edit', ['id' => $category->id]) }}" class="active" ui-toggle-class="">
                                     <i class="fa fa-pencil-square-o text success text-active"></i>
-                                    <i class="fa fa-times text-danger text"></i>
                                 </a>
+                                <form method="post" action="{{ route('delete', ['id' => $category->id]) }}">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="active" ui-toggle-class="">
+                                        <i class="fa fa-times text-danger text"></i>
+                                    </button>
+                                </form>
                             </td>
                         </tr>
                         @endforeach

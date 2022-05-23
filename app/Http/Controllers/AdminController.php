@@ -1,13 +1,14 @@
 <?php
 
 namespace App\Http\Controllers;
+use Illuminate\Support\Facades\Session;
 
 use Illuminate\Http\Request;
-use DB;
-use App\Http\Requests;
-use Illuminate\Contracts\Session\Session as SessionSession;
-use Illuminate\Routing\Redirector;
-use Session;
+use Illuminate\Support\Facades\DB;
+// use App\Http\Requests;
+// use Illuminate\Contracts\Session\Session as SessionSession;
+// use Illuminate\Routing\Redirector;
+
 use Illuminate\Support\Facades\Redirect;
 session_start();
 
@@ -32,21 +33,20 @@ class AdminController extends Controller
 
             return Redirect::to('/dashboard');
         } else {
-            Session::put('message', 'Tài khoản không tồn tại');
+            Session::put('message', 'Gmail hoặc mật khẩu sai.');
             return Redirect::to('/admin');
         }
-        //return view('admin.dashboard');
-
     }
 
     public function logout(){
         Session::put('admin_name', null);
         Session::put('admin_id', null);
         return Redirect::to('/admin');
-        //return view('admin_login');
     }
 
     public function admin(){
         return view('admin.dashboard');
     }
+
+    
 }
