@@ -4,25 +4,31 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\Request;
+use App\Models\Product;
 use App\Models\Category;
+use App\Models\Brand;
 
 
 use Illuminate\Support\Facades\Session;
 
-class CategoryController extends Controller
+class ProductController extends Controller
 {
     public function index()
     {
-        $categories = Category::query()->get();
+        $products = Product::query()->get();
 
-        return view('admin.categories.index')->with('categories', $categories);
+        return view('admin.products.index')->with('products', $products);
     }
 
     
     
-    public function create()
+    public function create(Request $request)
     {
-        return view('admin.categories.create');
+        $categories = Category::query()->orderbyDesc('id')->get();
+        $brands = Brand::query()->orderbyDesc('id')->get();
+
+
+        return view('admin.products.create')->with('categories', $categories)->with('brands', $brands);
     }
 
     
@@ -36,12 +42,12 @@ class CategoryController extends Controller
         $data['status'] = $request->status;
 
 
-        DB::table('tbl_category_product')->insert($data);
+        DB::table('products')->insert($data);
         // $category = Category::query()->get();
         // $data = $request->only('name', 'desc', 'status');
         // $categories->insert($data);
         Session::put('message','Thêm danh mục sản phẩm thành công');
-        return Redirect::to('create');
+        return Redirect::to('/products/create');
     }
 
     
@@ -57,9 +63,9 @@ class CategoryController extends Controller
     
     public function edit($id)
     {
-        $category = Category::query()->findOrFail($id);
+        $product = Product::query()->findOrFail($id);
 
-        return view('admin.categories.edit')->with('category', $category);
+        return view('admin.products.edit')->with('product', $product);
     }
 
     
@@ -68,12 +74,12 @@ class CategoryController extends Controller
     
     public function update($id, Request $request)
     {
-        $category = Category::query()->findOrFail($id);
+        $product = Product::query()->findOrFail($id);
         $data = $request->only('name', 'desc');
-        $category->update($data);
+        $product->update($data);
         
         Session::put('message', 'Cập nhật thành công');
-        return redirect(route('index'));
+        return redirect(route('index_products'));
     }
 
     
@@ -83,11 +89,11 @@ class CategoryController extends Controller
     
     public function destroy($id)
     {
-        $category = Category::query()->findOrFail($id)->delete();
+        $product = Product::query()->findOrFail($id)->delete();
 
 
         Session::put('message', 'Xóa danh mục sản phẩm thành công');
-        return Redirect(route('index'));
+        return Redirect(route('index_products'));
     }
 
     
@@ -97,13 +103,13 @@ class CategoryController extends Controller
     
     public function changeStatus($id)
     {
-        $category = Category::query()->findOrFail($id);
+        $product = Product::query()->findOrFail($id);
         $status = 1;
-        if($category->status == 1) {
+        if($product->status == 1) {
             $status = 0;
         }
-        $category->update(['status' => $status]);
+        $product->update(['status' => $status]);
 
-        return redirect(route('index'));
+        return redirect(route('index_products'));
     }
 }

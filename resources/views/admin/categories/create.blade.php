@@ -21,15 +21,15 @@
                         {{ csrf_field() }}
                         <div class="form-group">
                             <label for="exampleInputEmail">Tên danh mục</label>
-                            <input type="text" name="category_product_name" class="form-control" id="exampleInputEmail" placeholder="Tên danh mục">
+                            <input type="text" name="name" class="form-control" id="exampleInputEmail" placeholder="Tên danh mục">
                         </div>                    
                         <div class="form-group">
                             <label for="exampleInputPassword1">Mô tả danh mục</label>
-                            <textarea style="resize: none" row="11" class="form-control" id="exampleInputPassword1" placeholder="Mô tả danh mục" name="category_product_desc"></textarea>
+                            <textarea style="resize: none" row="11" class="form-control" id="exampleInputPassword1" placeholder="Mô tả danh mục" name="desc"></textarea>
                         </div>
                         <div class="form-group">
                             <label for="exampleInputEmail">Hiển thị</label>
-                            <select name="category_product_status" class="form-control input-sm m-bot15">
+                            <select name="status" class="form-control input-sm m-bot15">
                                 <option value="0">Ẩn</option>
                                 <option value="1">Hiển thị</option>
                             </select>
