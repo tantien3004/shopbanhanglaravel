@@ -36,12 +36,12 @@ class CategoryController extends Controller
         $data['status'] = $request->status;
 
 
-        DB::table('tbl_category_product')->insert($data);
+        DB::table('categories')->insert($data);
         // $category = Category::query()->get();
         // $data = $request->only('name', 'desc', 'status');
         // $categories->insert($data);
         Session::put('message','Thêm danh mục sản phẩm thành công');
-        return Redirect::to('create');
+        return redirect(route('index'));
     }
 
     

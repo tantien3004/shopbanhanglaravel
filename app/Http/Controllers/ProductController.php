@@ -35,17 +35,19 @@ class ProductController extends Controller
     
     public function store(Request $request)
     {
-        //lưu ý không làm như này
-        $data = array();
-        $data['name'] = $request->name;
-        $data['desc'] = $request->desc;
-        $data['status'] = $request->status;
+        if($request->file('image')) {
+            $path = $request->file('image')->store('public/images');
+        }
+        $product = new Product();
+        $product->name = $request->get('name');
+        $product->price = $request->get('price');
+        $product->description = $request->get('desc');
+        $product->status = $request->get('status');
+        $product->category_id = $request->get('category_id');
+        $product->brand_id = $request->get('brand_id');
+        $product->image = $path;
+        $product->save();
 
-
-        DB::table('products')->insert($data);
-        // $category = Category::query()->get();
-        // $data = $request->only('name', 'desc', 'status');
-        // $categories->insert($data);
         Session::put('message','Thêm danh mục sản phẩm thành công');
         return Redirect::to('/products/create');
     }
