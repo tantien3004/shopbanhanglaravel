@@ -102,8 +102,10 @@ class BrandController extends Controller
         $status = 1;
         if($brand->status == 1) {
             $status = 0;
-        }
+            Session::put('message', 'Hủy kích hoạt thương hiệu sản phẩm thành công');
+        }  else Session::put('message', 'kích hoạt thương hiệu sản phẩm thành công');
         $brand->update(['status' => $status]);
+        
 
         return redirect(route('index_brands'));
     }

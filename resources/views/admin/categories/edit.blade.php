@@ -7,14 +7,15 @@
             <header class="panel-heading">
                 Cập nhật danh mục sản phẩm
             </header>
-            <?php
+           
+            <div class="panel-body">
+                <?php
                 $message = Session::get('message');
                 if($message)
                 {
                     echo '<span class ="text-alert">'.$message.'</span>';
                     Session::put('message', null);
                 }   ?>
-            <div class="panel-body">
                 <div class="position-center">
                     <form  role="form" method="post" action="{{ route('update', ['id' => $category->id]) }}">
                         @csrf

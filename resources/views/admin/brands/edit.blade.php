@@ -7,14 +7,15 @@
             <header class="panel-heading">
                 Cập nhật danh mục thương hiệu
             </header>
-            <?php
+            
+            <div class="panel-body">
+                <?php
                 $message = Session::get('message');
                 if($message)
                 {
                     echo '<span class ="text-alert">'.$message.'</span>';
                     Session::put('message', null);
                 }   ?>
-            <div class="panel-body">
                 <div class="position-center">
                     <form  role="form" method="post" action="{{ route('update_brands', ['id' => $brand->id]) }}">
                         @csrf

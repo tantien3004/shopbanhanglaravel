@@ -101,7 +101,8 @@ class CategoryController extends Controller
         $status = 1;
         if($category->status == 1) {
             $status = 0;
-        }
+            Session::put('message', 'Hủy kích hoạt danh mục sản phẩm thành công');
+        } else Session::put('message', 'kích hoạt danh mục sản phẩm thành công');
         $category->update(['status' => $status]);
 
         return redirect(route('index'));

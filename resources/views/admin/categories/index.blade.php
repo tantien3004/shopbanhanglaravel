@@ -6,6 +6,14 @@
         <div class="panel-heading">
             Liệt kê danh mục sản phẩm
         </div>
+        <?php
+                $message = Session::get('message');
+                if($message)
+                {
+                    echo '<span class ="text-alert">'.$message.'</span>';
+                    Session::put('message', null);
+                }
+                ?>
         <div class="row w3-res-tb">
             
             <div class="col-sm-6 m-b-xs">
@@ -76,7 +84,7 @@
                                 <form method="post" action="{{ route('delete', ['id' => $category->id]) }}">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="active" ui-toggle-class="">
+                                    <button type="submit" class="active" ui-toggle-class="" onclick="return confirm('Bạn chắc chắn muốn xóa sản phẩm này chứ?')">
                                         <i class="fa fa-times text-danger text"></i>
                                     </button>
                                 </form>

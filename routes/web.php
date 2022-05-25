@@ -55,7 +55,7 @@ Route::prefix('brands')->group( function() {
 
 //product 
 Route::prefix('products')->group( function() {
-    Route::get('/index', [ProductController::class, 'index'])->name('index_product');
+    Route::get('/index', [ProductController::class, 'index'])->name('index_products');
     Route::get('/show/{id}', [ProductController::class, 'show'])->name('show_product');
     Route::get('/edit/{id}', [ProductController::class, 'edit'])->name('edit_product');
     Route::get('/create', [ProductController::class, 'create'])->name('create_product');
@@ -64,3 +64,4 @@ Route::prefix('products')->group( function() {
     Route::post('/store', [ProductController::class, 'store'])->name('store_product');
     Route::delete('delete/{id}', [ProductController::class, 'destroy'])->name('delete_product');
 });
+//chuyển _ ở name thành .
