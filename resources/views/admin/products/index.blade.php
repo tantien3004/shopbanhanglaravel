@@ -63,7 +63,7 @@
                             <td>{{ $product->name }}</td>
                             <td><img src="{{ route('home') . '/' . $product->image }}" height="100" width="100"></td>
                             <td>{{ $product->price }}</td>                           
-                            <td>{{ $product->category->name }}</td>
+                            <td>{{ $product->category->name }}</td> 
                             <td>{{ $product->brand->name }}</td>
                             <td>
                                 <span class="text-ellipsis">

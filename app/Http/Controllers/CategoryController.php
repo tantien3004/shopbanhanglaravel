@@ -9,10 +9,22 @@ use App\Models\Category;
 
 use Illuminate\Support\Facades\Session;
 
+use function PHPUnit\Framework\returnSelf;
+
 class CategoryController extends Controller
 {
+    public function loggin()
+    {
+        $admin_id=Session::get('admin_id');
+        if($admin_id)
+        {
+            return redirect(route('dashboard.admin'));
+        } else return redirect(route('index.admin'))->send();
+    }
+
     public function index()
     {
+        $this->loggin();
         $categories = Category::query()->get();
 
         return view('admin.categories.index')->with('categories', $categories);
@@ -22,6 +34,7 @@ class CategoryController extends Controller
     
     public function create()
     {
+        $this->loggin();
         return view('admin.categories.create');
     }
 
@@ -29,6 +42,7 @@ class CategoryController extends Controller
     
     public function store(Request $request)
     {
+        $this->loggin();
         //lưu ý không làm như này
         $data = array();
         $data['name'] = $request->name;
@@ -48,7 +62,7 @@ class CategoryController extends Controller
     
     public function show($id)
     {
-        
+        $this->loggin();
 
     }
 
@@ -57,6 +71,7 @@ class CategoryController extends Controller
     
     public function edit($id)
     {
+        $this->loggin();
         $category = Category::query()->findOrFail($id);
 
         return view('admin.categories.edit')->with('category', $category);
@@ -68,6 +83,7 @@ class CategoryController extends Controller
     
     public function update($id, Request $request)
     {
+        $this->loggin();
         $category = Category::query()->findOrFail($id);
         $data = $request->only('name', 'desc');
         $category->update($data);
@@ -83,6 +99,7 @@ class CategoryController extends Controller
     
     public function destroy($id)
     {
+        $this->loggin();
         $category = Category::query()->findOrFail($id)->delete();
 
 
@@ -90,13 +107,9 @@ class CategoryController extends Controller
         return Redirect(route('index'));
     }
 
-    
-    
-    
-    
-    
     public function changeStatus($id)
     {
+        $this->loggin();
         $category = Category::query()->findOrFail($id);
         $status = 1;
         if($category->status == 1) {
@@ -106,5 +119,13 @@ class CategoryController extends Controller
         $category->update(['status' => $status]);
 
         return redirect(route('index'));
+    }
+
+
+
+    // Router user
+    public function category($id)
+    {
+        return view('admin.pages.category');
     }
 }

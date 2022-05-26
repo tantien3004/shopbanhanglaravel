@@ -12,9 +12,19 @@ use Illuminate\Support\Facades\Session;
 
 class ProductController extends Controller
 {
+
+    public function loggin()
+    {
+        $admin_id=Session::get('admin_id');
+        if($admin_id)
+        {
+            return redirect(route('dashboard.admin'));
+        } else return redirect(route('index.admin'))->send();
+    }
+
     public function index()
     {
-        
+        $this->loggin();
         $products=Product::query()
             ->with('category:id,name')
             ->with('brand:id,name')
@@ -26,6 +36,7 @@ class ProductController extends Controller
     
     public function create(Request $request)
     {
+        $this->loggin();
         $categories = Category::query()->orderbyDesc('id')->get();
         $brands = Brand::query()->orderbyDesc('id')->get();
 
@@ -37,6 +48,7 @@ class ProductController extends Controller
     
     public function store(Request $request)
     {
+        $this->loggin();
         if($request->file('image')) {
             $path = $request->file('image')->store('public/images');
             $path = str_replace('public', 'storage', $path);
@@ -54,11 +66,33 @@ class ProductController extends Controller
         Session::put('message','Thêm sản phẩm thành công');
         return Redirect::to('/products/create');
     }  
-    public function show($id)
+    
+    public function update( Request $request, $id)
     {
+        $this->loggin();
+        $product = Product::query()->findOrFail($id);
+        if($request->file('image')) {
+            $path = $request->file('image')->store('public/images');
+            $path = str_replace('public', 'storage', $path);
+        }
+        $product->name = $request->post('name');
+        $product->price = $request->post('price');
+        $product->description = $request->post('description');
+        // $product->status = $request->post('status');
+        $product->category_id = $request->post('category_id');
+        $product->brand_id = $request->post('brand_id');        
+        $product->image=$path;
+        $product->update();
+
+        //bug: phải sửa đồng thời và trạng thái của sản phẩm không đúng như sản phẩm hiện có
+ 
+        Session::put('message', 'Cập nhật thành công');
+        return redirect(route('index_products'));
     }
+
     public function edit($id)
     {
+        $this->loggin();
         $product = Product::query()
             ->with('category:id,name')
             ->with('brand:id,name')
@@ -73,23 +107,10 @@ class ProductController extends Controller
     
     
     
-    public function update($id, Request $request)
-    {
-        $product = Product::query()->findOrFail($id);
-        $data = $request->only('name', 'description', 'price', 'image');
-        $product->update($data);
-        
-        Session::put('message', 'Cập nhật thành công');
-        return redirect(route('index_products'));
-    }
-
-    
-    
-    
-    
     
     public function destroy($id)
     {
+        $this->loggin();
         $product = Product::query()->findOrFail($id)->delete();
 
 
@@ -104,6 +125,7 @@ class ProductController extends Controller
     
     public function changeStatus($id)
     {
+        $this->loggin();
         $product = Product::query()->findOrFail($id);
         $status = 1;
         if($product->status == 1) {
@@ -113,5 +135,9 @@ class ProductController extends Controller
         $product->update(['status' => $status]);
         
         return redirect(route('index_products'));
+    }
+    public function show($id)
+    {
+        $this->loggin();
     }
 }

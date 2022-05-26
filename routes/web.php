@@ -5,6 +5,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\ProductController;
+use App\Models\Category;
 use Illuminate\Support\Facades\Route;
 
 
@@ -13,9 +14,16 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/trang-chu', [HomeController::class, 'index']);
 
 
+//Category Home Page User
+Route::prefix('user')->group(function()
+{
+    Route::get('/category/{id}',[CategoryController::class, 'category'])->name('category.user');
+});
+
+
 //backend
-Route::get('/admin', [AdminController::class, 'index']);
-Route::get('/dashboard', [AdminController::class, 'show_dashboard']);
+Route::get('/admin', [AdminController::class, 'index'])->name('index.admin');
+Route::get('/dashboard', [AdminController::class, 'show_dashboard'])->name('dashboard.admin');
 Route::post('/admin-dashboard', [AdminController::class, 'dashboard']);
 Route::get('/logout', [AdminController::class, 'logout']);
 
@@ -23,7 +31,7 @@ Route::get('/logout', [AdminController::class, 'logout']);
 
 
 
-//category product
+//category admin product
 Route::prefix('categories')->group( function() {
     Route::get('/index', [CategoryController::class, 'index'])->name('index');
     Route::get('/show/{id}', [CategoryController::class, 'show'])->name('show');
@@ -38,7 +46,7 @@ Route::prefix('categories')->group( function() {
 
 
 
-//brand product
+//brand admin product
 Route::prefix('brands')->group( function() {
     Route::get('/index', [BrandController::class, 'index'])->name('index_brands');
     Route::get('/show/{id}', [BrandController::class, 'show'])->name('show_brands');
@@ -53,7 +61,7 @@ Route::prefix('brands')->group( function() {
 
 
 
-//product 
+//product admin
 Route::prefix('products')->group( function() {
     Route::get('/index', [ProductController::class, 'index'])->name('index_products');
     Route::get('/show/{id}', [ProductController::class, 'show'])->name('show_product');

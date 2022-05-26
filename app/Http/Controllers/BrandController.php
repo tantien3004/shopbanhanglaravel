@@ -12,8 +12,19 @@ use Illuminate\Support\Facades\Session;
 
 class BrandController extends Controller
 {
+
+    public function loggin()
+    {
+        $admin_id=Session::get('admin_id');
+        if($admin_id)
+        {
+            return redirect(route('index.admin'));
+        } else return redirect(route('dashboard.admin'))->send();
+    }
+
     public function index()
     {
+        $this->loggin();
         $brands = Brand::query()->get();
 
         return view('admin.brands.index')->with('brands', $brands);
@@ -23,6 +34,7 @@ class BrandController extends Controller
     
     public function create()
     {
+        $this->loggin();
         return view('admin.brands.create');
     }
 
@@ -30,6 +42,7 @@ class BrandController extends Controller
     
     public function store(Request $request)
     {
+        $this->loggin();
         //lưu ý không làm như này
         $data = array();
         $data['name'] = $request->name;
@@ -49,7 +62,7 @@ class BrandController extends Controller
     
     public function show($id)
     {
-        
+        $this->loggin();
 
     }
 
@@ -58,6 +71,7 @@ class BrandController extends Controller
     
     public function edit($id)
     {
+        $this->loggin();
         $brand = Brand::query()->findOrFail($id);
 
         return view('admin.brands.edit')->with('brand', $brand);
@@ -69,6 +83,7 @@ class BrandController extends Controller
     
     public function update($id, Request $request)
     {
+        $this->loggin();
         $brand = Brand::query()->findOrFail($id);
         $data = $request->only('name', 'desc');
         $brand->update($data);
@@ -84,6 +99,7 @@ class BrandController extends Controller
     
     public function destroy($id)
     {
+        $this->loggin();
         $brand = Brand::query()->findOrFail($id)->delete();
 
 
@@ -98,6 +114,7 @@ class BrandController extends Controller
     
     public function changeStatus($id)
     {
+        $this->loggin();
         $brand = Brand::query()->findOrFail($id);
         $status = 1;
         if($brand->status == 1) {

@@ -17,8 +17,8 @@
                 }
                 ?>
                 <div class="position-center">
-                    <form  role="form" method="post" action="{{ URL::to('/products/update') }}" enctype="multipart/form-data">
-                        {{-- {{ csrf_field() }} --}}
+                    <form  role="form" method="post" action="{{ route('update_product', ['id'=>$product->id]) }}" enctype="multipart/form-data">
+                        {{ csrf_field() }}
                         @csrf
                         @method('PUT')
                         <div class="form-group">
@@ -60,7 +60,7 @@
                         </div>
                         {{-- <div class="form-group">
                             <label for="exampleInputEmail">Hiển thị</label>
-                            <select name="status" class="form-control input-sm m-bot15" value="{{ $product->status }}" >
+                            <select name="status" class="form-control input-sm m-bot15" href="{{ route('index_products', ['id' => $product->id]) }}" >
                                 <option value="0">Ẩn</option>
                                 <option value="1">Hiển thị</option>
                             </select>

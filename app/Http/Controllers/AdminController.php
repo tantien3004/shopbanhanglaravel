@@ -5,24 +5,32 @@ use Illuminate\Support\Facades\Session;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-// use App\Http\Requests;
-// use Illuminate\Contracts\Session\Session as SessionSession;
-// use Illuminate\Routing\Redirector;
 
 use Illuminate\Support\Facades\Redirect;
-session_start();
 
 class AdminController extends Controller
 {
-    public function index(){
+    public function loggin()
+    {
+        $admin_id = Session::get('admin_id');
+        if($admin_id){
+            return redirect(route('dashboard.admin'));
+        } else return redirect(route('index.admin'))->send();
+    }
+
+    public function index()
+    {
         return view('admin_login');
     }
 
-    public function show_dashboard(){
+    public function show_dashboard()
+    {
+        $this->loggin();
         return view('admin.dashboard');
     }
 
-    public function dashboard( Request $request){
+    public function dashboard( Request $request)
+    {
         $admin_email = $request->admin_email;
         $admin_password = md5($request->admin_password);
 
@@ -38,13 +46,15 @@ class AdminController extends Controller
         }
     }
 
-    public function logout(){
+    public function logout()
+    {
         Session::put('admin_name', null);
         Session::put('admin_id', null);
         return Redirect::to('/admin');
     }
 
-    public function admin(){
+    public function admin()
+    {
         return view('admin.dashboard');
     }
 
