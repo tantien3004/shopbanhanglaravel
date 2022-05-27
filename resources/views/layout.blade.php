@@ -57,7 +57,7 @@
 				<div class="row">
 					<div class="col-sm-4">
 						<div class="logo pull-left">
-							<a href="index.html"><img src="{{('frontend/images/logo.png')}}" alt="" /></a>
+							<a href="{{ route('home') }}"><img src="{{('frontend/images/logo.png')}}" alt="" /></a>
 						</div>
 						<div class="btn-group pull-right">
 							<div class="btn-group">
@@ -218,8 +218,7 @@
 							@foreach ($categories as $category)
 							<div class="panel panel-default">
 								<div class="panel-heading">
-									{{-- <h4 class="panel-title"><a href="{{ route('category', ['id'=>$category->id]) }}">{{ $category->name }}</a></h4> --}}
-									<h4 class="panel-title"><a href="{{ URL::to('/category/'.$category->id) }}">{{ $category->name }}</a></h4>
+									<h4 class="panel-title"><a href="{{ route('category.show', ['id'=>$category->id]) }}">{{ $category->name }}</a></h4>
 								</div>
 							</div>
 							@endforeach							
@@ -231,8 +230,7 @@
 							<div class="brands-name">								
 								<ul class="nav nav-pills nav-stacked">
 									@foreach ($brands as $brand)
-									{{-- <li><a href="{{ route('brand', ['id'=>$brand->id]) }}"> <span class="pull-right">({{ $brand->id }})</span>{{ $brand->name }}</a></li>									 --}}
-									<li><a href="{{ URL::to('/brand/'.$brand->id) }}"> <span class="pull-right">({{ $brand->id }})</span>{{ $brand->name }}</a></li>
+									<li><a href="{{ route('brand.show', ['id'=>$brand->id]) }}"> <span class="pull-right">({{ $brand->id }})</span>{{ $brand->name }}</a></li>									
 									@endforeach									
 								</ul>
 							</div>

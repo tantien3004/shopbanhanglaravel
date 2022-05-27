@@ -58,13 +58,13 @@
 
                             </select>
                         </div>
-                        {{-- <div class="form-group">
+                        <div class="form-group">
                             <label for="exampleInputEmail">Hiển thị</label>
-                            <select name="status" class="form-control input-sm m-bot15" href="{{ route('index_products', ['id' => $product->id]) }}" >
-                                <option value="0">Ẩn</option>
-                                <option value="1">Hiển thị</option>
+                            <select name="status" class="form-control input-sm m-bot15">
+                                <option value="0" <?php if($product->status == 0) echo "selected" ?>>Ẩn</option>
+                                <option value="1" <?php if($product->status == 1) echo "selected" ?>>Hiển thị</option>
                             </select>
-                        </div> --}}
+                        </div>
                         <button type="submit" name=" " class="btn btn-info">Cập nhật sản phẩm</button>
                     </form>
 

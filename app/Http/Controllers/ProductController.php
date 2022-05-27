@@ -71,6 +71,7 @@ class ProductController extends Controller
     {
         $this->loggin();
         $product = Product::query()->findOrFail($id);
+        $path = $product->image;
         if($request->file('image')) {
             $path = $request->file('image')->store('public/images');
             $path = str_replace('public', 'storage', $path);
@@ -139,5 +140,12 @@ class ProductController extends Controller
     public function show($id)
     {
         $this->loggin();
+    }
+
+
+    //Product Controller user
+    public function showProduct($id)
+    {
+        return view('user.product.show');
     }
 }

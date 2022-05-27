@@ -12,11 +12,6 @@ class HomeController extends Controller
         $categories = Category::query()->where('status', '1')->orderbyDesc('id')->get();
         $brands = Brand::query()->where('status', '1')->orderbyDesc('id')->get();
 
-        // $products=Product::query()
-        // ->with('category:id,name')
-        // ->with('brand:id,name')
-        // ->get();
-
         $products = Product::query()->where('status', '1')->orderbyDesc('id')->limit(6)->get();
 
         return view('pages.home')->with('categories', $categories)->with('brands', $brands)->with('products', $products);

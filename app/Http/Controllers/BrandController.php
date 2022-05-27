@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\Request;
 use App\Models\Brand;
+use App\Models\Category;
 
 
 use Illuminate\Support\Facades\Session;
@@ -107,10 +108,7 @@ class BrandController extends Controller
         return Redirect(route('index_brands'));
     }
 
-    
-    
-    
-    
+ 
     
     public function changeStatus($id)
     {
@@ -125,5 +123,21 @@ class BrandController extends Controller
         
 
         return redirect(route('index_brands'));
+    }
+
+
+
+    //Controller Brand User
+    public function showBrand($id)
+    {
+        $categories = Category::query()->where('status', '1')->orderbyDesc('id')->get();
+        $brands = Brand::query()->where('status', '1')->orderbyDesc('id')->get();
+
+        $brand = Brand::query()->with('products')->findOrFail($id);
+
+        return view('user.brand.show')
+            ->with('categories', $categories)
+            ->with('brands', $brands)
+            ->with('brand', $brand);
     }
 }

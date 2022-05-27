@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Redirect;
+// use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\Request;
 use App\Models\Category;
+use App\Models\Brand;
+use App\Models\Product;
 
 
 use Illuminate\Support\Facades\Session;
 
-use function PHPUnit\Framework\returnSelf;
+// use function PHPUnit\Framework\returnSelf;
 
 class CategoryController extends Controller
 {
@@ -43,6 +45,7 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $this->loggin();
+
         //lưu ý không làm như này
         $data = array();
         $data['name'] = $request->name;
@@ -51,9 +54,6 @@ class CategoryController extends Controller
 
 
         DB::table('categories')->insert($data);
-        // $category = Category::query()->get();
-        // $data = $request->only('name', 'desc', 'status');
-        // $categories->insert($data);
         Session::put('message','Thêm danh mục sản phẩm thành công');
         return redirect(route('index'));
     }
@@ -122,10 +122,21 @@ class CategoryController extends Controller
     }
 
 
-
-    // Router user
-    public function category($id)
+    //code dưới đây là viết chuẩn php, học theo
+    // Controller Category user
+ 
+    public function showCategory($id)
     {
-        return view('admin.pages.category');
+        $categories = Category::query()->where('status', '1')->orderbyDesc('id')->get();
+        $brands = Brand::query()->where('status', '1')->orderbyDesc('id')->get();
+
+        $category = Category::query()->with('products')->findOrFail($id);
+        
+        return view('user.category.show')
+            ->with('categories', $categories)
+            ->with('brands', $brands)
+            ->with('category', $category);
     }
+
+    
 }

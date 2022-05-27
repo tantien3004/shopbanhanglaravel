@@ -14,11 +14,30 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/trang-chu', [HomeController::class, 'index']);
 
 
+
+
+
+//route User
 //Category Home Page User
-Route::prefix('user')->group(function()
+Route::prefix('category')->group(function()
 {
-    Route::get('/category/{id}',[CategoryController::class, 'category'])->name('category.user');
+    Route::get('/{id}', [CategoryController::class, 'showCategory'])->name('category.show');
 });
+
+//Brand Home Page User
+Route::prefix('brand')->group(function()
+{
+    Route::get('/show/{id}', [BrandController::class, 'showBrand'])->name('brand.show');
+});
+
+
+Route::prefix('product')->group(function()
+{
+    Route::get('/show/{id}',[ProductController::class, 'showProduct'])->name('product.show');
+});
+//End route User
+
+
 
 
 //backend

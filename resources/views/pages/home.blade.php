@@ -9,17 +9,17 @@
 								<div class="single-products">
 										<div class="productinfo text-center">
 											<img src="{{ route('home') . '/' . $product->image }}" alt="" />
-											<h2>đ{{number_format( $product->price )}}</h2>
-											<p>{{ $product->name }}</p>
-											<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
+											{{-- <h2>đ{{number_format( $product->price )}}</h2> --}}
+											<p >{{ $product->description }}</p>
+											<a color="red" href="#" class="btn btn-default add-to-cart">{{ $product->name }}</a>
 										</div>
-										{{-- <div class="product-overlay">
+										<div class="product-overlay">
 											<div class="overlay-content">
-												<h2>$56</h2>
-												<p>Easy Polo Black Edition</p>
-												<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+												<h2>đ{{ number_format( $product->price ) }}</h2>
+												<p></p>
+												<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
 											</div>
-										</div> --}}
+										</div>
 								</div>
 								<div class="choose">
 									<ul class="nav nav-pills nav-justified">

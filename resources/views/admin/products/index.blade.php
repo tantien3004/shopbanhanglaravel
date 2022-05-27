@@ -60,11 +60,11 @@
                         @foreach($products as $product)
                         <tr>
                             <td><label class="i-checks m-b-none"><input type="checkbox" name="post[]"><i></i></label></td>
-                            <td>{{ $product->name }}</td>
+                            <td>{{ $product->name ? $product->name : '' }}</td>
                             <td><img src="{{ route('home') . '/' . $product->image }}" height="100" width="100"></td>
-                            <td>{{ $product->price }}</td>                           
-                            <td>{{ $product->category->name }}</td> 
-                            <td>{{ $product->brand->name }}</td>
+                            <td>{{ $product->price ? $product->price : '' }}</td>                           
+                            <td>{{ $product->category ? $product->category->name : '' }}</td> 
+                            <td>{{ $product->brand ? $product->brand->name : '' }}</td>
                             <td>
                                 <span class="text-ellipsis">
                                 <?php
