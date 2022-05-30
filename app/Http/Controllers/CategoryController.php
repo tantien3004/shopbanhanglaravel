@@ -132,6 +132,7 @@ class CategoryController extends Controller
 
         $category = Category::query()->with('products')->findOrFail($id);
         
+        
         return view('user.category.show')
             ->with('categories', $categories)
             ->with('brands', $brands)

@@ -4,6 +4,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\BrandController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProductController;
 use App\Models\Category;
 use Illuminate\Support\Facades\Route;
@@ -30,11 +31,17 @@ Route::prefix('brand')->group(function()
     Route::get('/show/{id}', [BrandController::class, 'showBrand'])->name('brand.show');
 });
 
-
+//detail product
 Route::prefix('product')->group(function()
 {
     Route::get('/show/{id}',[ProductController::class, 'showProduct'])->name('product.show');
+    Route::get('/add/{id}', [CartController::class, 'addProduct'])->name('product.add');
 });
+
+
+
+
+
 //End route User
 
 

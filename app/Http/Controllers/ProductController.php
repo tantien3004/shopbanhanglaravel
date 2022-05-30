@@ -85,7 +85,7 @@ class ProductController extends Controller
         $product->image=$path;
         $product->update();
 
-        //bug: phải sửa đồng thời và trạng thái của sản phẩm không đúng như sản phẩm hiện có
+       
  
         Session::put('message', 'Cập nhật thành công');
         return redirect(route('index_products'));
@@ -146,6 +146,30 @@ class ProductController extends Controller
     //Product Controller user
     public function showProduct($id)
     {
-        return view('user.product.show');
+        $categories = Category::query()->where('status', '1')->orderbyDesc('id')->get();
+        $brands = Brand::query()->where('status', '1')->orderbyDesc('id')->get();
+
+        $product = Product::query()
+            ->with('category:id,name')
+            ->with('brand:id,name')
+            ->findOrFail($id);
+
+        $relatecategories = Product::query()
+            ->where('category_id', $product->category_id)            
+            ->where('id', '!=', $product->id)  
+            ->where('brand_id', '!=', $product->brand_id)
+            ->get();
+
+        $relatebrands = Product::query()
+            ->where('brand_id', $product->brand_id)
+            ->where('id', '!=', $product->id)
+            ->get();
+
+        return view('user.product.show')
+            ->with('categories', $categories)
+            ->with('brands', $brands)
+            ->with('product', $product)
+            ->with('relatecategories', $relatecategories)
+            ->with('relatebrands', $relatebrands);
     }
 }
