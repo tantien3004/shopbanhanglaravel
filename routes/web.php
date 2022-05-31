@@ -6,6 +6,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\UserController;
 use App\Models\Category;
 use Illuminate\Support\Facades\Route;
 
@@ -14,49 +15,50 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/trang-chu', [HomeController::class, 'index']);
 
-
-
-
-
 //route User
+//user login
+Route::prefix('user')->group(function ()
+{
+    Route::get('/log-in', [UserController::class, 'login'])->name('user.login');
+});
 //Category Home Page User
 Route::prefix('category')->group(function()
 {
-    Route::get('/{id}', [CategoryController::class, 'showCategory'])->name('category.show');
+    Route::get('/{id}', [CategoryController::class, 'showCategory'])->name('category');
 });
 
 //Brand Home Page User
 Route::prefix('brand')->group(function()
 {
-    Route::get('/show/{id}', [BrandController::class, 'showBrand'])->name('brand.show');
+    Route::get('/show/{id}', [BrandController::class, 'showBrand'])->name('brand');
 });
 
 //detail product
 Route::prefix('product')->group(function()
 {
-    Route::get('/show/{id}',[ProductController::class, 'showProduct'])->name('product.show');
-    Route::get('/add/{id}', [CartController::class, 'addProduct'])->name('product.add');
+    Route::get('/{id}', [ProductController::class, 'productList'])->name('product');
 });
 
+Route::get('/add-to-card/{id}', [CartController::class, 'add'])->name('addToCart');
+Route::prefix('cart')->group(function()
+{
+    Route::get('/', [CartController::class, 'cartList'])->name('cart.list');
+    Route::post('/cart', [CartController::class, 'addToCart'])->name('cart.store');
+    Route::post('/update-cart', [CartController::class, 'updateCart'])->name('cart.update');
+    Route::post('/remove', [CartController::class, 'removeCart'])->name('cart.remove');
+    Route::post('/clear', [CartController::class, 'clearAllCart'])->name('cart.clear');
+});
 
-
+//send mail
+Route::get('/send-mail', [HomeController::class, 'sendMail'])->name('sendMail');
 
 
 //End route User
-
-
-
-
 //backend
 Route::get('/admin', [AdminController::class, 'index'])->name('index.admin');
 Route::get('/dashboard', [AdminController::class, 'show_dashboard'])->name('dashboard.admin');
 Route::post('/admin-dashboard', [AdminController::class, 'dashboard']);
 Route::get('/logout', [AdminController::class, 'logout']);
-
-
-
-
-
 //category admin product
 Route::prefix('categories')->group( function() {
     Route::get('/index', [CategoryController::class, 'index'])->name('index');
@@ -68,10 +70,6 @@ Route::prefix('categories')->group( function() {
     Route::post('/store', [CategoryController::class, 'store'])->name('store');
     Route::delete('delete/{id}', [CategoryController::class, 'destroy'])->name('delete');
 });
-
-
-
-
 //brand admin product
 Route::prefix('brands')->group( function() {
     Route::get('/index', [BrandController::class, 'index'])->name('index_brands');
@@ -83,10 +81,6 @@ Route::prefix('brands')->group( function() {
     Route::post('/store', [BrandController::class, 'store'])->name('store_brands');
     Route::delete('delete/{id}', [BrandController::class, 'destroy'])->name('delete_brands');
 });
-
-
-
-
 //product admin
 Route::prefix('products')->group( function() {
     Route::get('/index', [ProductController::class, 'index'])->name('index_products');

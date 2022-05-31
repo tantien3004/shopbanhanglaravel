@@ -17,7 +17,7 @@
 											<div class="overlay-content">
 												<h2>đ{{ number_format( $product->price ) }}</h2>
 												<p></p>
-												<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
+												<a href="{{ route('addToCart', ['id' => $product->id]) }}" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
 											</div>
 										</div>
 								</div>

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>Home | E-Shopper</title>
+    <title>Home | E-Shopper Trang chu</title>
     <link href="{{asset('frontend/css/bootstrap.min.css')}}" rel="stylesheet">
     <link href="{{asset('frontend/css/font-awesome.min.css')}}" rel="stylesheet">
     <link href="{{asset('frontend/css/prettyPhoto.css')}}" rel="stylesheet">
@@ -90,7 +90,7 @@
 								<li><a href="#"><i class="fa fa-star"></i> Wishlist</a></li>
 								<li><a href="checkout.html"><i class="fa fa-crosshairs"></i> Checkout</a></li>
 								<li><a href="cart.html"><i class="fa fa-shopping-cart"></i> Cart</a></li>
-								<li><a href="login.html"><i class="fa fa-lock"></i> Login</a></li>
+								<li><a href="{{ route('user.login') }}"><i class="fa fa-lock"></i> Login</a></li>
 							</ul>
 						</div>
 					</div>
@@ -124,11 +124,11 @@
                                 </li> 
 								<li class="dropdown"><a href="#">Tin tức<i class="fa fa-angle-down"></i></a>
                                     <ul role="menu" class="sub-menu">
-                                        <li><a href="blog.html">Giỏ hàng</a></li>
+                                        <li><a href="{{ route('cart.list') }}">Giỏ hàng</a></li>
 										<li><a href="blog-single.html">Liên hệ</a></li>
                                     </ul>
                                 </li> 
-								<li><a href="404.html">Giỏ hàng</a></li>
+								<li><a href="{{ route('cart.list') }}">Giỏ hàng</a></li>
 								<li><a href="contact-us.html">Liên hệ</a></li>
 							</ul>
 						</div>
@@ -218,7 +218,7 @@
 							@foreach ($categories as $category)
 							<div class="panel panel-default">
 								<div class="panel-heading">
-									<h4 class="panel-title"><a href="{{ route('category.show', ['id'=>$category->id]) }}">{{ $category->name }}</a></h4>
+									<h4 class="panel-title"><a href="{{ route('category', ['id'=>$category->id]) }}">{{ $category->name }}</a></h4>
 								</div>
 							</div>
 							@endforeach							
@@ -230,7 +230,7 @@
 							<div class="brands-name">								
 								<ul class="nav nav-pills nav-stacked">
 									@foreach ($brands as $brand)
-									<li><a href="{{ route('brand.show', ['id'=>$brand->id]) }}"> <span class="pull-right">({{ $brand->id }})</span>{{ $brand->name }}</a></li>									
+									<li><a href="{{ route('brand', ['id'=>$brand->id]) }}"> <span class="pull-right">({{ $brand->id }})</span>{{ $brand->name }}</a></li>									
 									@endforeach									
 								</ul>
 							</div>
@@ -243,7 +243,7 @@
 								 <b class="pull-left">$ 0</b> <b class="pull-right">$ 600</b>
 							</div>
 						</div><!--/price-range--> --}}
-						
+						{{ Cart::getTotalQuantity()}}
 						<div class="{{('shipping text-center')}}"><!--shipping-->
 							<img src="{{('frontend/images/shipping.jpg')}}" alt="" />
 						</div><!--/shipping-->

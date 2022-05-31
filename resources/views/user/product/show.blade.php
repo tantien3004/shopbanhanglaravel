@@ -43,16 +43,16 @@
         <div class="product-information"><!--/product-information-->
             <img src="{{ URL::to('/frontend/images/new.jpg') }}" class="newarrival" alt="" />
             <h2>{{ $product->name }}</h2>
-            <p>ID sản phẩm: {{ $product->id }}</p>
+            <p>ID sản phẩm: {{ $product->id }}</p> 
             <img src="{{ URL::to('/frontend/images/rating.png') }}" alt="" />
-            <form action="route('product.add')" method="POST">
+            <form action="{{ route('cart.store') }}" method="POST">
                 {{ csrf_field() }}
                 <span>
                     <span>{{ number_format($product->price ) . 'VNĐ'}}</span>
                     <label>Quantity:</label>
                     <input type="number" min="1" value="1" name="qty"/>
                     <input type="hidden" name="productid_hidden" value="{{ $product->id }}"/>
-                    <button type="button" class="btn btn-fefault cart">
+                    <button type="submit" class="btn btn-fefault cart">
                         <i class="fa fa-shopping-cart"></i>
                         Thêm vào giỏ hàng
                     </button>
