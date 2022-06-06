@@ -19,10 +19,12 @@ Route::get('/trang-chu', [HomeController::class, 'index']);
 //user login
 Route::prefix('user')->group(function ()
 {
-    Route::group(['middleware' => ['auth', 'role:Admin, Staff']], function () 
-    {
-        Route::get('/log-in', [UserController::class, 'login'])->name('user.login');
-    });
+    // Route::group(['middleware' => ['auth', 'role:Admin, Staff']], function () 
+    // {
+    //     Route::get('/log-in', [UserController::class, 'login'])->name('user.login');
+    // });
+    Route::get('/log-in', [UserController::class, 'login'])->name('user.login');
+    Route::post('/search', [HomeController::class, 'search'])->name('search.product');
 });
 //Category Home Page User
 Route::prefix('category')->group(function()

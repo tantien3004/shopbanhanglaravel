@@ -101,7 +101,7 @@
 		<div class="header-bottom"><!--header-bottom-->
 			<div class="container">
 				<div class="row">
-					<div class="col-sm-9">
+					<div class="col-sm-8">
 						<div class="navbar-header">
 							<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
 								<span class="sr-only">Toggle navigation</span>
@@ -133,10 +133,14 @@
 							</ul>
 						</div>
 					</div>
-					<div class="col-sm-3">
+					<div class="col-sm-4">
+						<form action="{{ route('search.product') }}" method="POST">
+							@csrf
 						<div class="search_box pull-right">
-							<input type="text" placeholder="Search"/>
+							<input type="text" placeholder="Search" name="keywords"/>
+							<input type="submit" class="btn btn-success btn-sm" value="search" name="search">
 						</div>
+					</form>
 					</div>
 				</div>
 			</div>
