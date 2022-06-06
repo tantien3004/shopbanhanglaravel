@@ -8,6 +8,11 @@ use App\Models\Product;
 
 class HomeController extends Controller
 {
+    public function __construct()
+    {  
+       $this->middleware('auth'); 
+    }
+
     public function index(){
         $categories = Category::query()->where('status', '1')->orderbyDesc('id')->get();
         $brands = Brand::query()->where('status', '1')->orderbyDesc('id')->get();

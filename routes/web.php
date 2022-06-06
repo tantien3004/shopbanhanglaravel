@@ -19,7 +19,10 @@ Route::get('/trang-chu', [HomeController::class, 'index']);
 //user login
 Route::prefix('user')->group(function ()
 {
-    Route::get('/log-in', [UserController::class, 'login'])->name('user.login');
+    Route::group(['middleware' => ['auth', 'role:Admin, Staff']], function () 
+    {
+        Route::get('/log-in', [UserController::class, 'login'])->name('user.login');
+    });
 });
 //Category Home Page User
 Route::prefix('category')->group(function()
