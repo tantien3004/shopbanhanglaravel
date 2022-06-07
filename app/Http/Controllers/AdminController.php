@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Session;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 use Illuminate\Support\Facades\Redirect;
@@ -44,6 +45,23 @@ class AdminController extends Controller
             Session::put('message', 'Gmail hoặc mật khẩu sai.');
             return Redirect::to('/admin');
         }
+    }
+
+    public function authenticate( Request $request)
+    {
+        $credentials = $request->only('admin_email', 'admin_password');
+        if(Auth::attempt($credentials))
+        {
+            $request->session()->regenerate();
+            return redirect()->intended('dashboard');
+        }
+
+        return back()->withErrors([
+            'email'=>'email not exit',
+            'password'=>'passwprd incorrect'
+        ]);
+
+        // Auth::loginUsingId()
     }
 
     public function logout()
