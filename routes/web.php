@@ -9,11 +9,12 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use App\Models\Category;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\RegisteredUserController;
 
 
 //Frontend
-Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('/trang-chu', [HomeController::class, 'index']);
+Route::get('/', [UserController::class, 'login'])->name('home');
+Route::get('/trang-chu', [HomeController::class, 'index'])->name('user.home');
 
 //route User
 //user login
@@ -23,7 +24,12 @@ Route::prefix('user')->group(function ()
     // {
     //     Route::get('/log-in', [UserController::class, 'login'])->name('user.login');
     // });
-    Route::get('/log-in', [UserController::class, 'login'])->name('user.login');
+    Route::get('/log-in', [UserController::class, 'login'])
+            ->name('user.login');
+    Route::post('/log-in', [UserController::class, 'checkLogin'])
+            ->name('user.checkLogin');
+    Route::post('register', [RegisteredUserController::class, 'store'])->name('register');
+
     Route::post('/search', [HomeController::class, 'search'])->name('search.product');
 });
 //Category Home Page User
