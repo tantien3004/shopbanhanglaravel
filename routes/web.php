@@ -14,28 +14,24 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 
 //Frontend
 Route::get('/', [UserController::class, 'login'])->name('home');
-Route::get('/trang-chu', [HomeController::class, 'index'])->name('user.home');
+Route::get('trang-chu', [HomeController::class, 'index'])->name('user.home');
 
 //route User
-//user login
-Route::prefix('user')->group(function ()
-{
-    // Route::group(['middleware' => ['auth', 'role:Admin, Staff']], function () 
-    // {
-    //     Route::get('/log-in', [UserController::class, 'login'])->name('user.login');
-    // });
-    Route::get('/log-in', [UserController::class, 'login'])
-            ->name('user.login');
-    Route::post('/log-in', [UserController::class, 'checkLogin'])
-            ->name('user.checkLogin');
-    Route::post('register', [RegisteredUserController::class, 'store'])->name('register');
+//user login, logout
 
-    Route::post('/search', [HomeController::class, 'search'])->name('search.product');
+Route::get('login', [UserController::class, 'login'])->name('user.login');
+Route::post('login', [UserController::class, 'checkLogin'])->name('user.checkLogin');
+Route::post('register', [RegisteredUserController::class, 'store'])->name('register');
+
+Route::prefix('user')->middleware('isAdmin')->group(function ()
+{
+    Route::get('user/logout',[UserController::class, 'logout'])->name('user.logout');
+    Route::post('search', [HomeController::class, 'search'])->name('search.product');
 });
 //Category Home Page User
 Route::prefix('category')->group(function()
 {
-    Route::get('/{id}', [CategoryController::class, 'showCategory'])->name('category');
+    Route::get('{id}', [CategoryController::class, 'showCategory'])->name('category');
 });
 
 //Brand Home Page User

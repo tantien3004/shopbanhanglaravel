@@ -203,7 +203,7 @@
                                 </div>
                             </div>
                             <div>
-                                <label for="password">{{ __('Confirm Password') }}</label>
+                                <label for="password">{{ __('Password') }}</label>
                                 <div>
                                     <input type="password" name="password" class="form-control @error('password') is-invalid @enderror" required autocomplete="new-password">
                                     @error('password')
@@ -214,7 +214,7 @@
                                 </div>
                             </div>
                             <div>
-                                <label for="password_confirm"></label>
+                                <label for="password_confirm">{{ __('Confirm Password') }}</label>
                                 <div>
                                     <input type="password" name="password_confirmation" required autocomplete="new-password">
                                 </div>

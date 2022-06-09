@@ -86,11 +86,11 @@
 					<div class="col-sm-8">
 						<div class="shop-menu pull-right">
 							<ul class="nav navbar-nav">
-								<li><a href=""><i class="fa fa-user"></i> Account</a></li>
-								<li><a href=""><i class="fa fa-star"></i> Wishlist</a></li>
-								<li><a href="checkout.html"><i class="fa fa-crosshairs"></i> Checkout</a></li>
-								<li><a href="cart.html"><i class="fa fa-shopping-cart"></i> Cart</a></li>
-								<li><a href="login.html" class="active"><i class="fa fa-lock"></i> Login</a></li>
+								<li><a href="{{ route('home') }}"><i class="fa fa-user"></i> Account</a></li>
+								<li><a href="{{ route('home') }}"><i class="fa fa-star"></i> Wishlist</a></li>
+								<li><a href="{{ route('home') }}"><i class="fa fa-crosshairs"></i> Checkout</a></li>
+								<li><a href="{{ route('home') }}"><i class="fa fa-shopping-cart"></i> Cart</a></li>
+								{{-- <li><a href="{{ route('home') }}" class="active"><i class="fa fa-lock"></i> Login</a></li> --}}
 							</ul>
 						</div>
 					</div>
@@ -115,11 +115,11 @@
 								<li><a href="index.html">Home</a></li>
 								<li class="dropdown"><a href="#">Shop<i class="fa fa-angle-down"></i></a>
                                     <ul role="menu" class="sub-menu">
-                                        <li><a href="shop.html">Products</a></li>
-										<li><a href="product-details.html">Product Details</a></li> 
-										<li><a href="checkout.html">Checkout</a></li> 
-										<li><a href="cart.html">Cart</a></li> 
-										<li><a href="login.html" class="active">Login</a></li> 
+                                        <li><a href="{{ route('home') }}">Products</a></li>
+										<li><a href="{{ route('home') }}">Product Details</a></li> 
+										<li><a href="{{ route('home') }}">Checkout</a></li> 
+										<li><a href="{{ route('home') }}">Cart</a></li> 
+										{{-- <li><a href="{{ route('home') }}" class="active">Login</a></li>  --}}
                                     </ul>
                                 </li> 
 								<li class="dropdown"><a href="#">Blog<i class="fa fa-angle-down"></i></a>
@@ -152,19 +152,14 @@
                         {{ session('error') }}
                         </div>
                     @endif
-                    @if (session('success'))
-                        <div>
-                        {{ session('success') }}
-                        </div>
-                    @endif
 					<div class="login-form"><!--login form-->
 						<h2>Đăng nhập tài khoản</h2>
 						<form action="{{ route('user.checkLogin') }}" method="POST">
 							@csrf
-							<input type="email" placeholder="Email" />
-							<input type="password" placeholder="Password" />
+							<input name="email" type="email" placeholder="Email" />
+							<input type="password" name="password" placeholder="Password" />
 							<span>
-								<input type="checkbox" class="checkbox"> 
+								<input type="checkbox" class="checkbox" name="remember"> 
 								Keep me signed in
 							</span>
 							<button type="submit" class="btn btn-default">Login</button>
@@ -205,7 +200,7 @@
                             <div>
                                 <label for="password">{{ __('Password') }}</label>
                                 <div>
-                                    <input type="password" name="password" class="form-control @error('password') is-invalid @enderror" required autocomplete="new-password">
+                                    <input placeholder="Password" type="password" name="password" class="form-control @error('password') is-invalid @enderror" required autocomplete="new-password">
                                     @error('password')
                                         <span>
                                             <strong>{{ $message }}</strong>
@@ -216,7 +211,7 @@
                             <div>
                                 <label for="password_confirm">{{ __('Confirm Password') }}</label>
                                 <div>
-                                    <input type="password" name="password_confirmation" required autocomplete="new-password">
+                                    <input type="password" name="password_confirmation" required autocomplete="new-password" placeholder="Confirm password">
                                 </div>
                             </div>
 							<button type="submit" class="btn btn-default">Signup</button>

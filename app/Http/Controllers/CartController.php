@@ -16,7 +16,6 @@ class CartController extends Controller
     public function cartList()
     {
         $cartItems = Cart::getConnection();
-        // dd($cartItems);
         return view('cart', compact('cartItems'));
     }
 
