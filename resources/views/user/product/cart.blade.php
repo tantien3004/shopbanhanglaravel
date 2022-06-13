@@ -38,11 +38,11 @@
                         </td>
                         <td class="cart_quantity">
                             <div class="cart_quantity_button">
-                                <input class="cart_quantity_input" data-product="{{ $item->product->id }}" type="number" name="quantity" value="{{ $item->quantity }}"  min="1" max="1000">
+                                <input class="cart_quantity_input" data-product="{{ $item->product->id }}" data-price="{{ $item->product->price }}" type="number" name="quantity" value="{{ $item->quantity }}"  min="1" max="1000">
                             </div>
                         </td>
                         <td class="cart_total">
-                            <p class="cart_total_price">
+                            <p class="cart_total_price price-{{ $item->product->id }}">
                                 {{ number_format($item->product->price * $item->quantity, 0, '', ',') }}VNĐ
                             </p>
                         </td>
@@ -86,6 +86,7 @@
 		$('.cart_quantity_input').on('click', function() {
             var productId = $(this).data('product');
             var quantity = $(this).val();
+            var price = $(this).data('price');
             console.log('click');
             $.ajaxSetup({
                 headers: {
@@ -103,7 +104,11 @@
                     quantity: quantity
                 }
             }).done(function(result) {
-                console.log(result);
+                var className = 'price-' + productId;
+                var total = parseInt(quantity) * parseInt(price);
+                console.log(quantity);
+                console.log(price);
+                $('.' + className).text(total);
             });
         });
 	});
