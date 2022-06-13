@@ -14,7 +14,6 @@
                 <thead>
                     <tr class="cart_menu">
                         <td class="image">Hình ảnh</td>
-                        <td class="description">Mô tả</td>
                         <td class="price">Giá</td>
                         <td class="quantity">Số lượng</td>
                         <td class="total">Thành tiền</td>
@@ -22,85 +21,62 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <?php $total = 0; ?>
+                    @foreach ($cartItems as $item)
+                    <?php
+                        $total = $total + ($item->product->price * $item->quantity);
+                    ?>
                     <tr>
                         <td class="cart_product">
-                            <a href=""><img src="images/cart/one.png" alt=""></a>
-                        </td>
-                        <td class="cart_description">
-                            <h4><a href="">{{ $product->name }}</a></h4>
-                            <p>ID: {{ $product->id }}</p>
+                            <a href="" style="width: 200px; display: block ">
+                                <img src="{{ $item->product->image }}" alt="" style="max-width: 100%; height: auto">
+                            </a><br/>
+                            {{ $item->product->name }}
                         </td>
                         <td class="cart_price">
-                            <p>{{ $product->price }}</p>
+                            <p>{{ number_format($item->product->price, 0, '', ',') }}VNĐ</p>
                         </td>
                         <td class="cart_quantity">
                             <div class="cart_quantity_button">
-                                <a class="cart_quantity_up" href=""> + </a>
-                                <input class="cart_quantity_input" type="text" name="quantity" value="1" autocomplete="off" size="2">
-                                <a class="cart_quantity_down" href=""> - </a>
+                                <input class="cart_quantity_input" type="number" name="quantity" value="{{ $item->quantity }}"  min="1" max="1000">
                             </div>
                         </td>
                         <td class="cart_total">
-                            <p class="cart_total_price">$59</p>
+                            <p class="cart_total_price">
+                                {{ number_format($item->product->price * $item->quantity, 0, '', ',') }}VNĐ
+                            </p>
                         </td>
-                        <td class="cart_delete">
-                            <a class="cart_quantity_delete" href=""><i class="fa fa-times"></i></a>
+                        <td class="btn btn-danger" onclick="return confirm('Bạn chắc chắc muốn xóa chứ?')">
+                            <form action="{{ route('cart.remove', ['id' => $item->id]) }}" method="post">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit"><i class="fa fa-times"></i></button>
+                            </form>
                         </td>
                     </tr>
-
-                    {{-- <tr>
-                        <td class="cart_product">
-                            <a href=""><img src="images/cart/two.png" alt=""></a>
-                        </td>
-                        <td class="cart_description">
-                            <h4><a href="">Colorblock Scuba</a></h4>
-                            <p>Web ID: 1089772</p>
-                        </td>
-                        <td class="cart_price">
-                            <p>$59</p>
-                        </td>
-                        <td class="cart_quantity">
-                            <div class="cart_quantity_button">
-                                <a class="cart_quantity_up" href=""> + </a>
-                                <input class="cart_quantity_input" type="text" name="quantity" value="1" autocomplete="off" size="2">
-                                <a class="cart_quantity_down" href=""> - </a>
-                            </div>
-                        </td>
-                        <td class="cart_total">
-                            <p class="cart_total_price">$59</p>
-                        </td>
-                        <td class="cart_delete">
-                            <a class="cart_quantity_delete" href=""><i class="fa fa-times"></i></a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="cart_product">
-                            <a href=""><img src="images/cart/three.png" alt=""></a>
-                        </td>
-                        <td class="cart_description">
-                            <h4><a href="">Colorblock Scuba</a></h4>
-                            <p>Web ID: 1089772</p>
-                        </td>
-                        <td class="cart_price">
-                            <p>$59</p>
-                        </td>
-                        <td class="cart_quantity">
-                            <div class="cart_quantity_button">
-                                <a class="cart_quantity_up" href=""> + </a>
-                                <input class="cart_quantity_input" type="text" name="quantity" value="1" autocomplete="off" size="2">
-                                <a class="cart_quantity_down" href=""> - </a>
-                            </div>
-                        </td>
-                        <td class="cart_total">
-                            <p class="cart_total_price">$59</p>
-                        </td>
-                        <td class="cart_delete">
-                            <a class="cart_quantity_delete" href=""><i class="fa fa-times"></i></a>
-                        </td>
-                    </tr> --}}
+                    @endforeach
                 </tbody>
             </table>
         </div>
     </div>
+
+    <section id="do_action">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="total_area">
+                        <ul>
+                            <li>Thành tiền<span>{{ number_format($total, 0, '', ',') }}VNĐ</span></li>
+                            <li>Thuế<span>{{ number_format($total * 0.1 , 0, '', ',') }}VNĐ</span></li>
+                            <li>Phí ship<span>50,000VNĐ</span></li>
+                            <li>Tống số tiền<span>{{ number_format($total + $total * 0.1 + 50000, 0, '', ',') }}VNĐ</span></li>
+                        </ul>
+                            <a class="btn btn-default update" href="">Update</a>
+                            <a class="btn btn-default check_out" href="">Check Out</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section><!--/#do_action-->
 </section> <!--/#cart_items-->
 @endsection

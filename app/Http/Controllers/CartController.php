@@ -15,8 +15,16 @@ class CartController extends Controller
     
     public function cartList()
     {
-        $cartItems = Cart::getConnection();
-        return view('cart', compact('cartItems'));
+        $cartItems = Cart::query()->where('user_id', Auth::user()->id)->with('product')->get();  
+        $categories = Category::query()->where('status', '1')->orderbyDesc('id')->get();
+        $brands = Brand::query()->where('status', '1')->orderbyDesc('id')->get();
+
+        $products = Product::query()->where('status', '1')->orderbyDesc('id')->limit(6)->get();
+
+        return view('user.product.cart', compact('cartItems'))
+                ->with('categories', $categories)
+                ->with('brands', $brands)
+                ->with('products', $products);
     }
 
     public function add($id, Request $request)
@@ -24,7 +32,6 @@ class CartController extends Controller
         $quantity = $request->get('quantity') ?? 1;
         $product = Product::query()->findOrFail($id);
         $data = [
-            'id' => $product->id,
             'user_id' => Auth::user()->id,
             'product_id' => $product->id,
             'quantity' => $quantity,
@@ -42,14 +49,13 @@ class CartController extends Controller
             'price' => $request->price,
             'quantity' => $request->quantity,
         ]);
-        session()->flash('success', 'Product is Added to Cart Successfully !');
-
+        session()->flash('success', 'Product is added to Cart Successfully !');
         return redirect()->route('cart.list');
     }
 
     public function updateCart(Request $request)
     {
-        Cart::update(
+        Cart::query()->update( // sửa
             $request->id,
             [
                 'quantity' => [
@@ -64,10 +70,9 @@ class CartController extends Controller
         return redirect()->route('cart.list');
     }
 
-    public function removeCart(Request $request)
+    public function removeCart($id)
     {
-        Cart::remove($request->id);
-        session()->flash('success', 'Item Cart Remove Successfully !');
+        $cartItems = Cart::query()->findOrFail($id)->delete();
 
         return redirect()->route('cart.list');
     }

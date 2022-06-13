@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\RegisteredUserController;
 
 
-//Frontend
+/*===============User==============*/ 
 Route::get('/', [UserController::class, 'login'])->name('home');
 Route::get('trang-chu', [HomeController::class, 'index'])->name('user.home');
 
@@ -22,12 +22,12 @@ Route::get('trang-chu', [HomeController::class, 'index'])->name('user.home');
 Route::get('login', [UserController::class, 'login'])->name('user.login');
 Route::post('login', [UserController::class, 'checkLogin'])->name('user.checkLogin');
 Route::post('register', [RegisteredUserController::class, 'store'])->name('register');
-
 Route::prefix('user')->middleware('isAdmin')->group(function ()
 {
     Route::get('user/logout',[UserController::class, 'logout'])->name('user.logout');
     Route::post('search', [HomeController::class, 'search'])->name('search.product');
 });
+
 //Category Home Page User
 Route::prefix('category')->group(function()
 {
@@ -45,23 +45,22 @@ Route::prefix('product')->group(function()
 {
     Route::get('/{id}', [ProductController::class, 'productList'])->name('product');
 });
-
 Route::get('/add-to-card/{id}', [CartController::class, 'add'])->name('addToCart');
 Route::prefix('cart')->group(function()
 {
     Route::get('/', [CartController::class, 'cartList'])->name('cart.list');
-    Route::post('/cart', [CartController::class, 'addToCart'])->name('cart.store');
-    Route::post('/update-cart', [CartController::class, 'updateCart'])->name('cart.update');
-    Route::post('/remove', [CartController::class, 'removeCart'])->name('cart.remove');
-    Route::post('/clear', [CartController::class, 'clearAllCart'])->name('cart.clear');
+    Route::post('/{id}', [CartController::class, 'addToCart'])->name('cart.store');
+    Route::post('update-cart', [CartController::class, 'updateCart'])->name('cart.update');
+    Route::delete('remove/{id}', [CartController::class, 'removeCart'])->name('cart.remove');
+    Route::post('clear', [CartController::class, 'clearAllCart'])->name('cart.clear');
 });
 
 //send mail
 Route::get('/send-mail', [HomeController::class, 'sendMail'])->name('sendMail');
-
-
 //End route User
-//backend
+
+
+/*====================Admin======================*/
 Route::get('/admin', [AdminController::class, 'index'])->name('index.admin');
 Route::get('/dashboard', [AdminController::class, 'show_dashboard'])->name('dashboard.admin');
 Route::post('/admin-dashboard', [AdminController::class, 'dashboard']);

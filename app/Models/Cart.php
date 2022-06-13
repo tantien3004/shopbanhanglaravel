@@ -20,9 +20,9 @@ class Cart extends Model
 
     protected $table = 'carts';
 
-    public function products()
+    public function product()
     {
-        return $this->hasMany(Product::class);
+        return $this->belongsTo(Product::class);
     }
 
     public function users()

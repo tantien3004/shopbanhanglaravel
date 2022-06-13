@@ -89,7 +89,7 @@
 								<li><a href="#"><i class="fa fa-user"></i> Account</a></li>
 								<li><a href="#"><i class="fa fa-star"></i> Wishlist</a></li>
 								<li><a href="#"><i class="fa fa-crosshairs"></i> Checkout</a></li>
-								<li><a href="#"><i class="fa fa-shopping-cart"></i> Cart</a></li>
+								<li><a href="{{ route('cart.list') }}"><i class="fa fa-shopping-cart"></i> Cart</a></li>
 								@if(auth()->user()?->id)
 								<li><a href="">{{ Auth::user()->name }}</a></li>
 								<li><a href="{{ route('user.logout') }}">Log out</a></li>
@@ -245,13 +245,6 @@
 							</div>
 						</div><!--/brands_products-->
 						
-						{{-- <div class="price-range"><!--price-range-->
-							<h2>Price Range</h2>
-							<div class="well text-center">
-								 <input type="text" class="span2" value="" data-slider-min="0" data-slider-max="600" data-slider-step="5" data-slider-value="[250,450]" id="sl2" ><br />
-								 <b class="pull-left">$ 0</b> <b class="pull-right">$ 600</b>
-							</div>
-						</div><!--/price-range--> --}}
 						{{ Cart::getTotalQuantity()}}
 						<div class="{{('shipping text-center')}}"><!--shipping-->
 							<img src="{{('frontend/images/shipping.jpg')}}" alt="" />
