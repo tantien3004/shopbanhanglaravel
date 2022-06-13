@@ -68,8 +68,8 @@
                         <ul>
                             <li>Thành tiền<span>{{ number_format($total, 0, '', ',') }}VNĐ</span></li>
                             <li>Thuế<span>{{ number_format($total * 0.1 , 0, '', ',') }}VNĐ</span></li>
-                            <li>Phí ship<span>50,000VNĐ</span></li>
-                            <li>Tống số tiền<span>{{ number_format($total + $total * 0.1 + 50000, 0, '', ',') }}VNĐ</span></li>
+                            <li>Phí ship<span>{{ number_format(($total + ($total * 0.1)) * 0.001 , 0, '', ',') }}VNĐ</span></li>
+                            <li>Tống số tiền<span>{{ number_format($total + $total * 0.1 + ($total + ($total * 0.1)) * 0.001, 0, '', ',') }}VNĐ</span></li>
                         </ul>
                             <a class="btn btn-default update" href="">Update</a>
                             <a class="btn btn-default check_out" href="">Check Out</a>
