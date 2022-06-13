@@ -22,6 +22,7 @@
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/ico/apple-touch-icon-114-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/ico/apple-touch-icon-72-precomposed.png">
     <link rel="apple-touch-icon-precomposed" href="images/ico/apple-touch-icon-57-precomposed.png">
+	<meta name="csrf-token" content="{{ csrf_token() }}">
 </head><!--/head-->
 
 <body>
@@ -417,14 +418,15 @@
 			</div>
 		</div>
 		
-	</footer> 
-
-  
+	</footer>
     <script src="{{asset('frontend/js/jquery.js')}}"></script>
 	<script src="{{asset('frontend/js/bootstrap.min.js')}}"></script>
 	<script src="{{asset('frontend/js/jquery.scrollUp.min.js')}}"></script>
 	<script src="{{asset('frontend/js/price-range.js')}}"></script>
     <script src="{{asset('frontend/js/jquery.prettyPhoto.js')}}"></script>
     <script src="{{asset('frontend/js/main.')}}"></script>
+
+	@yield('script')
+
 </body>
 </html>

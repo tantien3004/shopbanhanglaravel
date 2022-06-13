@@ -38,7 +38,7 @@
                         </td>
                         <td class="cart_quantity">
                             <div class="cart_quantity_button">
-                                <input class="cart_quantity_input" type="number" name="quantity" value="{{ $item->quantity }}"  min="1" max="1000">
+                                <input class="cart_quantity_input" data-product="{{ $item->product->id }}" type="number" name="quantity" value="{{ $item->quantity }}"  min="1" max="1000">
                             </div>
                         </td>
                         <td class="cart_total">
@@ -79,4 +79,33 @@
         </div>
     </section><!--/#do_action-->
 </section> <!--/#cart_items-->
+@endsection
+@section('script')
+<script>
+    $(document).ready(function() {
+		$('.cart_quantity_input').on('click', function() {
+            var productId = $(this).data('product');
+            var quantity = $(this).val();
+            console.log('click');
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                type: 'POST',
+                method: 'POST',
+                url: "{{ route('update.quantity') }}",
+                dataType: 'json',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    product_id: productId,
+                    quantity: quantity
+                }
+            }).done(function(result) {
+                console.log(result);
+            });
+        });
+	});
+</script>
 @endsection

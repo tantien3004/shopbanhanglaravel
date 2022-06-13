@@ -48,6 +48,7 @@ Route::prefix('product')->group(function()
 Route::get('/add-to-card/{id}', [CartController::class, 'add'])->name('addToCart');
 Route::prefix('cart')->group(function()
 {
+    Route::post('/update-quantity', [CartController::class, 'updateQuantity'])->name('update.quantity');
     Route::get('/', [CartController::class, 'cartList'])->name('cart.list');
     Route::post('/{id}', [CartController::class, 'addToCart'])->name('cart.store');
     Route::post('update-cart', [CartController::class, 'updateCart'])->name('cart.update');

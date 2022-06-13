@@ -31,12 +31,22 @@ class CartController extends Controller
     {
         $quantity = $request->get('quantity') ?? 1;
         $product = Product::query()->findOrFail($id);
-        $data = [
-            'user_id' => Auth::user()->id,
-            'product_id' => $product->id,
-            'quantity' => $quantity,
-        ];
-        Cart::query()->create($data);
+        $cart = Cart::query()
+            ->where('user_id', Auth::user()->id)
+            ->where('product_id', $product->id)
+            ->first();
+        if($cart) {
+            $cart->update([
+                'quantity' => $cart->quantity + 1
+            ]);
+        } else {
+            $data = [
+                'user_id' => Auth::user()->id,
+                'product_id' => $product->id,
+                'quantity' => $quantity,
+            ];
+            Cart::query()->create($data);
+        }
         return redirect()->route('cart.list');
     }
 
@@ -84,5 +94,21 @@ class CartController extends Controller
         session()->flash('success', 'All Item Cart Clear Successfully !');
 
         return redirect()->route('cart.list');
+    }
+
+    public function updateQuantity(Request $request)
+    {
+        $data = $request->only('product_id', 'quantity');
+        if(empty($data['product_id']) || empty($data['quantity'])) {
+            return false;
+        }
+        $cart = Cart::query()
+            ->where('user_id', Auth::user()->id)
+            ->where('product_id', $data['product_id'])
+            ->first();
+        if(!$cart) return false;
+        return $cart->update([
+            'quantity' => $data['quantity']
+        ]);
     }
 }
