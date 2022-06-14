@@ -21,40 +21,44 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php $total = 0; ?>
-                    @foreach ($cartItems as $item)
-                    <?php
-                        $total = $total + ($item->product->price * $item->quantity);
-                    ?>
-                    <tr>
-                        <td class="cart_product">
-                            <a href="" style="width: 200px; display: block ">
-                                <img src="{{ $item->product->image }}" alt="" style="max-width: 100%; height: auto">
-                            </a><br/>
-                            {{ $item->product->name }}
-                        </td>
-                        <td class="cart_price">
-                            <p>{{ number_format($item->product->price, 0, '', ',') }}VNĐ</p>
-                        </td>
-                        <td class="cart_quantity">
-                            <div class="cart_quantity_button">
-                                <input class="cart_quantity_input" data-product="{{ $item->product->id }}" data-price="{{ $item->product->price }}" type="number" name="quantity" value="{{ $item->quantity }}"  min="1" max="1000">
-                            </div>
-                        </td>
-                        <td class="cart_total">
-                            <p class="cart_total_price price-{{ $item->product->id }}">
-                                {{ number_format($item->product->price * $item->quantity, 0, '', ',') }}VNĐ
-                            </p>
-                        </td>
-                        <td class="btn btn-danger" onclick="return confirm('Bạn chắc chắc muốn xóa chứ?')">
-                            <form action="{{ route('cart.remove', ['id' => $item->id]) }}" method="post">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit"><i class="fa fa-times"></i></button>
-                            </form>
-                        </td>
-                    </tr>
-                    @endforeach
+                    @if($cartItems)
+                        <?php $total = 0; ?>
+                        @foreach ($cartItems as $item)
+                            @if($item->product)
+                            <?php
+                                $total = $total + ($item->product->price * $item->quantity);
+                            ?>
+                            <tr>
+                                <td class="cart_product">
+                                    <a href="" style="width: 200px; display: block ">
+                                        <img src="{{ $item->product->image }}" alt="" style="max-width: 100%; height: auto">
+                                    </a><br/>
+                                    {{ $item->product->name }}
+                                </td>
+                                <td class="cart_price">
+                                    <p>{{ number_format($item->product->price, 0, '', ',') }}VNĐ</p>
+                                </td>
+                                <td class="cart_quantity">
+                                    <div class="cart_quantity_button">
+                                        <input class="cart_quantity_input" data-product="{{ $item->product->id }}" data-price="{{ $item->product->price }}" type="number" name="quantity" value="{{ $item->quantity }}"  min="1" max="1000">
+                                    </div>
+                                </td>
+                                <td class="cart_total">
+                                    <p class="cart_total_price price-{{ $item->product->id }}">
+                                        {{ number_format($item->product->price * $item->quantity, 0, '', ',') }}VNĐ
+                                    </p>
+                                </td>
+                                <td class="btn btn-danger" onclick="return confirm('Bạn chắc chắc muốn xóa chứ?')">
+                                    <form action="{{ route('cart.remove', ['id' => $item->id]) }}" method="post">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit"><i class="fa fa-times"></i></button>
+                                    </form>
+                                </td>
+                            </tr>
+                            @endif
+                        @endforeach
+                    @endif
                 </tbody>
             </table>
         </div>
@@ -67,8 +71,8 @@
                     <div class="total_area">
                         <ul>
                             <li>Thành tiền<span>{{ number_format($total, 0, '', ',') }}VNĐ</span></li>
-                            <li>Thuế<span>{{ number_format($total * 0.1 , 0, '', ',') }}VNĐ</span></li>
-                            <li>Phí ship<span>{{ number_format(($total + ($total * 0.1)) * 0.001 , 0, '', ',') }}VNĐ</span></li>
+                            <li>Phí ship<span>{{ number_format($total * 0.001 , 0, '', ',') }}VNĐ</span></li>
+                            <li>Thuế<span>{{ number_format(($total + ($total * 0.001)) * 0.1 , 0, '', ',') }}VNĐ</span></li>
                             <li>Tống số tiền<span>{{ number_format($total + $total * 0.1 + ($total + ($total * 0.1)) * 0.001, 0, '', ',') }}VNĐ</span></li>
                         </ul>
                             <a class="btn btn-default update" href="">Update</a>
@@ -80,6 +84,7 @@
     </section><!--/#do_action-->
 </section> <!--/#cart_items-->
 @endsection
+
 @section('script')
 <script>
     $(document).ready(function() {
@@ -112,5 +117,6 @@
             });
         });
 	});
+
 </script>
 @endsection

@@ -15,13 +15,17 @@ class CartController extends Controller
     
     public function cartList()
     {
-        $cartItems = Cart::query()->where('user_id', Auth::user()->id)->with('product')->get();  
+        $cartItems = Cart::query()
+            ->where('user_id', Auth::user()->id)
+            ->with('product')
+            ->get();
         $categories = Category::query()->where('status', '1')->orderbyDesc('id')->get();
         $brands = Brand::query()->where('status', '1')->orderbyDesc('id')->get();
 
-        $products = Product::query()->where('status', '1')->orderbyDesc('id')->limit(6)->get();
+        $products = Product::query()->where('status', '1')->orderbyDesc('id')->limit(10)->get();
 
-        return view('user.product.cart', compact('cartItems'))
+        return view('user.product.cart')
+                ->with('cartItems', $cartItems)
                 ->with('categories', $categories)
                 ->with('brands', $brands)
                 ->with('products', $products);
@@ -111,4 +115,28 @@ class CartController extends Controller
             'quantity' => $data['quantity']
         ]);
     }
+    
+    public function addToCartAjax(Request $request)
+    {
+        $productId = $request->get('product_id');
+        if(!$productId) return false;
+        $cart = Cart::query()
+            ->where('user_id', Auth::user()->id)
+            ->where('product_id', $productId)
+            ->first();
+        if($cart) {
+            return $cart->update([
+                'quantity' => $cart->quantity + 1
+            ]);
+        } else {
+            $data = [
+                'user_id' => Auth::user()->id,
+                'product_id' => $productId,
+                'quantity' => 1,
+            ];
+            return Cart::query()->create($data);
+        }
+        return false;
+    }
+
 }

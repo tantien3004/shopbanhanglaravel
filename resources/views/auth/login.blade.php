@@ -57,7 +57,7 @@
 				<div class="row">
 					<div class="col-sm-4">
 						<div class="logo pull-left">
-							<a href="index.html"><img src="{{ ('frontend/images/logo.png') }}" alt="" /></a>
+							<a href="{{ route('home') }}"><img src="{{ ('frontend/images/logo.png') }}" alt="" /></a>
 						</div>
 						<div class="btn-group pull-right">
 							<div class="btn-group">
@@ -112,7 +112,7 @@
 						</div>
 						<div class="mainmenu pull-left">
 							<ul class="nav navbar-nav collapse navbar-collapse">
-								<li><a href="index.html">Home</a></li>
+								<li><a href="{{ route('home') }}">Home</a></li>
 								<li class="dropdown"><a href="#">Shop<i class="fa fa-angle-down"></i></a>
                                     <ul role="menu" class="sub-menu">
                                         <li><a href="{{ route('home') }}">Products</a></li>
@@ -124,12 +124,12 @@
                                 </li> 
 								<li class="dropdown"><a href="#">Blog<i class="fa fa-angle-down"></i></a>
                                     <ul role="menu" class="sub-menu">
-                                        <li><a href="blog.html">Blog List</a></li>
-										<li><a href="blog-single.html">Blog Single</a></li>
+                                        <li><a href="{{ route('home') }}">Blog List</a></li>
+										<li><a href="{{ route('home') }}">Blog Single</a></li>
                                     </ul>
                                 </li> 
-								<li><a href="404.html">404</a></li>
-								<li><a href="contact-us.html">Contact</a></li>
+								<li><a href="{{ route('home') }}">404</a></li>
+								<li><a href="{{ route('home') }}">Contact</a></li>
 							</ul>
 						</div>
 					</div>

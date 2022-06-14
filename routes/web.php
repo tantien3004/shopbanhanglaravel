@@ -13,7 +13,7 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 
 
 /*===============User==============*/ 
-Route::get('/', [UserController::class, 'login'])->name('home');
+Route::get('/', [UserController::class, 'index'])->name('home');
 Route::get('trang-chu', [HomeController::class, 'index'])->name('user.home');
 
 //route User
@@ -45,9 +45,9 @@ Route::prefix('product')->group(function()
 {
     Route::get('/{id}', [ProductController::class, 'productList'])->name('product');
 });
-Route::get('/add-to-card/{id}', [CartController::class, 'add'])->name('addToCart');
-Route::prefix('cart')->group(function()
+Route::prefix('cart')->middleware('isAdmin')->group(function()
 {
+    Route::post('/add-to-card', [CartController::class, 'addToCartAjax'])->name('cart.add');
     Route::post('/update-quantity', [CartController::class, 'updateQuantity'])->name('update.quantity');
     Route::get('/', [CartController::class, 'cartList'])->name('cart.list');
     Route::post('/{id}', [CartController::class, 'addToCart'])->name('cart.store');

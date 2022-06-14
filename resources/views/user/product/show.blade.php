@@ -43,7 +43,7 @@
                     <label>Quantity:</label>
                     <input type="number" min="1" value="1" name="qty"/>
                     <input type="hidden" name="productid_hidden" value="{{ $product->id }}"/>
-                    <button type="submit" class="btn btn-fefault cart">
+                    <button type="submit" class="btn btn-fefault cart" href="{{ route('addToCart', ['id' => $product->id]) }}">
                         <i class="fa fa-shopping-cart"></i>
                         Thêm vào giỏ hàng
                     </button>
@@ -75,7 +75,7 @@
                                 <img src="{{ route('home') . '/' . $relatebrand->image }}" alt="" />
                                 <h2>{{ number_format($relatebrand->price) }}</h2>
                                 <p>{{ $relatebrand->name }}</p>
-                                <button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</button>
+                                <button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart" href="{{ route('addToCart', ['id' => $product->id]) }}"></i>Thêm vào giỏ hàng</button>
                             </div>
                         </div>
                     </div>
@@ -91,7 +91,7 @@
                                 <img src="{{ route('home') . '/' . $relatecategory->image }}" alt="" />
                                 <h2>{{ number_format($relatecategory->price) }}</h2>
                                 <p>{{ $relatecategory->name }}</p>
-                                <button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</button>
+                                <button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart" href="{{ route('addToCart', ['id' => $product->id]) }}"></i>Thêm vào giỏ hàng</button>
                             </div>
                         </div>         
                     </div>                    
