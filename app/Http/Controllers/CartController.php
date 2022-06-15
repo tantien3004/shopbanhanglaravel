@@ -86,9 +86,12 @@ class CartController extends Controller
 
     public function removeCart($id)
     {
-        $cartItems = Cart::query()->findOrFail($id)->delete();
-
-        return redirect()->route('cart.list');
+        $cart = Cart::query()
+            ->where('user_id', Auth::user()->id)
+            ->where('product_id', $id)
+            ->first();
+        if(!$cart) return false;
+        return $cart->delete();
     }
 
     public function clearAllCart()
@@ -114,7 +117,13 @@ class CartController extends Controller
         return $cart->update([
             'quantity' => $data['quantity']
         ]);
+
     }
+
+    // public function updateTotal(Request $request)
+    // {
+    //     $data = $request->only();
+    // }
     
     public function addToCartAjax(Request $request)
     {

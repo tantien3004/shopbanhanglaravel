@@ -17,7 +17,7 @@
                                            <div class="overlay-content">
                                                <h2>đ{{ number_format( $product->price ) }}</h2>
                                                <p></p>
-                                               <a href="{{ route('addToCart', ['id' => $product->id]) }}" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
+                                               <a data-product="{{ $product->id }}" data-price="{{ $product->price }}" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
                                            </div>
                                        </div>
                                </div>
@@ -32,4 +32,33 @@
                        @endforeach												
                    </div>
 
+@endsection
+
+@section('script')
+<script>
+	$(document).ready(function() {
+		$('.add-to-cart').click(function() {
+			var productId = $(this).data('product');
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+				type: 'POST',
+				method: 'POST',
+				url: "{{ route('cart.add') }}",
+				dataType: 'json',
+				data: {
+					_token: '{{ csrf_token() }}',
+                    product_id: productId,
+				}
+			}).done(function(result) {
+				// console.log('ok');
+                alertify.success('Thêm sản phẩm thành công');
+			});
+			
+		});
+	});
+</script>
 @endsection

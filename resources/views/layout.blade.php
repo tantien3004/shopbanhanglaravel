@@ -425,18 +425,12 @@
 	<script src="{{asset('frontend/js/price-range.js')}}"></script>
     <script src="{{asset('frontend/js/jquery.prettyPhoto.js')}}"></script>
     <script src="{{asset('frontend/js/main.')}}"></script>
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jQuery/2.1.3/jQuery.min.js"></script>
 
-
-	<!-- JavaScript -->
 	<script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
-
-	<!-- CSS -->
 	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
-	<!-- Default theme -->
 	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css"/>
-	<!-- Semantic UI theme -->
 	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/semantic.min.css"/>
-	<!-- Bootstrap theme -->
 	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.min.css"/>
 
 

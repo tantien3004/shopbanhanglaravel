@@ -28,7 +28,7 @@
                             <?php
                                 $total = $total + ($item->product->price * $item->quantity);
                             ?>
-                            <tr>
+                            <tr class="product-{{ $item->product->id }}">
                                 <td class="cart_product">
                                     <a href="" style="width: 200px; display: block ">
                                         <img src="{{ $item->product->image }}" alt="" style="max-width: 100%; height: auto">
@@ -48,12 +48,8 @@
                                         {{ number_format($item->product->price * $item->quantity, 0, '', ',') }}VNĐ
                                     </p>
                                 </td>
-                                <td class="btn btn-danger" onclick="return confirm('Bạn chắc chắc muốn xóa chứ?')">
-                                    <form action="{{ route('cart.remove', ['id' => $item->id]) }}" method="post">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit"><i class="fa fa-times"></i></button>
-                                    </form>
+                                <td class="btn btn-danger" >
+                                    <a onclick ="return confirm('bạn chắc chắn xóa sản phẩm này?') " class="delete-button" data-product="{{ $item->product->id }}"><i class="fa fa-times"></i></a>
                                 </td>
                             </tr>
                             @endif
@@ -68,7 +64,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-sm-6">
-                    <div class="total_area">
+                    <div class="total_area" >
                         <ul>
                             <li>Thành tiền<span>{{ number_format($total, 0, '', ',') }}VNĐ</span></li>
                             <li>Phí ship<span>{{ number_format($total * 0.001 , 0, '', ',') }}VNĐ</span></li>
@@ -92,7 +88,6 @@
             var productId = $(this).data('product');
             var quantity = $(this).val();
             var price = $(this).data('price');
-            console.log('click');
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -111,9 +106,49 @@
             }).done(function(result) {
                 var className = 'price-' + productId;
                 var total = parseInt(quantity) * parseInt(price);
-                console.log(quantity);
-                console.log(price);
                 $('.' + className).text(total);
+            });
+        });
+
+        $('.cart_quantity_input').on('click', function() {
+            var productId = $(this).data('product');
+            var quantity = $(this).val();
+            var price = $(this).data('price');
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                type: 'POST',
+                method: 'POST',
+                url: "{{ route('update.quantity') }}",
+                dataType: 'json',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    product_id: productId,
+                    quantity: quantity
+                }
+            }).done(function(result) {
+            });
+        });
+
+        $('.delete-button').on('click', function() {
+            var productId = $(this).data('product');
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                type: 'DELETE',
+                method: 'DELETE',
+                dataType: 'json',
+                url: "/cart/remove/" + productId,
+
+            }).done(function(result) {
+                var className = '.product-' + productId;
+                $(className).remove();
             });
         });
 	});

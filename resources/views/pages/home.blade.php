@@ -51,7 +51,6 @@
                     product_id: productId,
 				}
 			}).done(function(result) {
-				console.log('ok');
                 alertify.success('Thêm sản phẩm thành công');
 			});
 			
