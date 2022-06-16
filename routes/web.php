@@ -13,7 +13,7 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 
 
 /*===============User==============*/ 
-Route::get('/', [UserController::class, 'index'])->name('home');
+Route::get('/', [UserController::class, 'login'])->name('home');
 Route::get('trang-chu', [HomeController::class, 'index'])->name('user.home');
 
 //route User
