@@ -5,7 +5,7 @@
     <div class="container">
         <div class="breadcrumbs">
             <ol class="breadcrumb">
-              <li><a href="{{ route('home') }}">Trang chủ</a></li>
+              <li><a href="{{ route('user.home') }}">Trang chủ</a></li>
               <li class="active">Giỏ hàng của bạn</li>
             </ol>
         </div>
@@ -32,11 +32,11 @@
                                 <td class="cart_product">
                                     <a href="" style="width: 200px; display: block ">
                                         <img src="{{ $item->product->image }}" alt="" style="max-width: 100%; height: auto">
-                                    </a><br/>
-                                    {{ $item->product->name }}
+                                    </a><br/><i href="" style="color: green">
+                                    {{ $item->product->name }}</i>
                                 </td>
                                 <td class="cart_price">
-                                    <p>{{ number_format($item->product->price, 0, '', ',') }}VNĐ</p>
+                                    <p>{{ number_format($item->product->price, 0, '', '.') }} ₫</p>
                                 </td>
                                 <td class="cart_quantity">
                                     <div class="cart_quantity_button">
@@ -45,11 +45,11 @@
                                 </td>
                                 <td class="cart_total">
                                     <p class="cart_total_price price-{{ $item->product->id }}">
-                                        {{ number_format($item->product->price * $item->quantity, 0, '', ',') }}VNĐ
+                                        {{ number_format($item->product->price * $item->quantity, 0, '', '.') }} ₫
                                     </p>
                                 </td>
                                 <td class="btn btn-danger" >
-                                    <a onclick ="return confirm('bạn chắc chắn xóa sản phẩm này?') " class="delete-button" data-product="{{ $item->product->id }}"><i class="fa fa-times"></i></a>
+                                    <a class="delete-button" data-product="{{ $item->product->id }}"><i class="fa fa-times"></i></a>
                                 </td>
                             </tr>
                             @endif
@@ -66,10 +66,10 @@
                 <div class="col-sm-6">
                     <div class="total_area" >
                         <ul>
-                            <li>Thành tiền<span>{{ number_format($total, 0, '', ',') }}VNĐ</span></li>
-                            <li>Phí ship<span>{{ number_format($total * 0.001 , 0, '', ',') }}VNĐ</span></li>
-                            <li>Thuế<span>{{ number_format(($total + ($total * 0.001)) * 0.1 , 0, '', ',') }}VNĐ</span></li>
-                            <li>Tống số tiền<span>{{ number_format($total + $total * 0.1 + ($total + ($total * 0.1)) * 0.001, 0, '', ',') }}VNĐ</span></li>
+                            <li>Thành tiền<span>{{ number_format($total, 0, '', '.') }} ₫</span></li>
+                            <li>Phí ship<span>{{ number_format($total * 0.001 , 0, '', '.') }} ₫</span></li>
+                            <li>Thuế<span>{{ number_format(($total + ($total * 0.001)) * 0.1 , 0, '', '.') }} ₫</span></li>
+                            <li>Tống số tiền<span>{{ number_format($total + $total * 0.1 + ($total + ($total * 0.1)) * 0.001, 0, '', '.') }} ₫</span></li>
                         </ul>
                             <a class="btn btn-default update" href="">Update</a>
                             <a class="btn btn-default check_out" href="">Check Out</a>
@@ -84,7 +84,29 @@
 @section('script')
 <script>
     $(document).ready(function() {
-		$('.cart_quantity_input').on('click', function() {
+        $('.delete-button').on('click', function() {
+            var productId = $(this).data('product');
+            if(confirm('bạn chắc chắn xóa sản phẩm này?')) {
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                $.ajax({
+                    type: 'DELETE',
+                    method: 'DELETE',
+                    dataType: 'json',
+                    url: "/cart/remove/" + productId,
+
+                }).done(function(result) {
+                    var className = '.product-' + productId;
+                    $(className).remove();
+                    updateMoney();
+                });
+            }
+        });
+
+        $('.cart_quantity_input').on('change', function() {
             var productId = $(this).data('product');
             var quantity = $(this).val();
             var price = $(this).data('price');
@@ -106,51 +128,17 @@
             }).done(function(result) {
                 var className = 'price-' + productId;
                 var total = parseInt(quantity) * parseInt(price);
-                $('.' + className).text(total);
+                $('.' + className).text(new Intl.NumberFormat('vi-VN', {
+                    style: 'currency',
+                    currency: 'VND'
+                }).format(total) + '');
+                updateMoney();
             });
         });
 
-        $('.cart_quantity_input').on('click', function() {
-            var productId = $(this).data('product');
-            var quantity = $(this).val();
-            var price = $(this).data('price');
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-            $.ajax({
-                type: 'POST',
-                method: 'POST',
-                url: "{{ route('update.quantity') }}",
-                dataType: 'json',
-                data: {
-                    _token: '{{ csrf_token() }}',
-                    product_id: productId,
-                    quantity: quantity
-                }
-            }).done(function(result) {
-            });
-        });
-
-        $('.delete-button').on('click', function() {
-            var productId = $(this).data('product');
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-            $.ajax({
-                type: 'DELETE',
-                method: 'DELETE',
-                dataType: 'json',
-                url: "/cart/remove/" + productId,
-
-            }).done(function(result) {
-                var className = '.product-' + productId;
-                $(className).remove();
-            });
-        });
+        function updateMoney(){
+            
+        }
 	});
 
 </script>

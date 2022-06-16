@@ -119,11 +119,6 @@ class CartController extends Controller
         ]);
 
     }
-
-    // public function updateTotal(Request $request)
-    // {
-    //     $data = $request->only();
-    // }
     
     public function addToCartAjax(Request $request)
     {
@@ -147,5 +142,4 @@ class CartController extends Controller
         }
         return false;
     }
-
 }
