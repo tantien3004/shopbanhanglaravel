@@ -121,7 +121,6 @@
                 url: "{{ route('update.quantity') }}",
                 dataType: 'json',
                 data: {
-                    _token: '{{ csrf_token() }}',
                     product_id: productId,
                     quantity: quantity
                 }
@@ -137,8 +136,17 @@
         });
 
         function updateMoney(){
-            
-        }
+            console.log('update');
+            var total = 0;
+            var productId = $(this).data('product');
+            var quantity = $(this).val();
+            var price = $(this).data('price');
+            var sum = parseInt(quantity) * parseInt(price);
+            sum.forEach(function(tong){
+                total += tong;
+            });
+            console.log(total);
+            }
 	});
 
 </script>

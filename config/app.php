@@ -182,6 +182,7 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
         Darryldecode\Cart\CartServiceProvider::class,
+        // Contentful\Laravel\ContentfulServiceProvider::class,
 
         /*
          * Package Service Providers...

@@ -246,7 +246,7 @@
 							</div>
 						</div><!--/brands_products-->
 						
-						{{ Cart::getTotalQuantity()}}
+						{{-- {{ Cart::getTotalQuantity()}} --}}
 						<div class="{{('shipping text-center')}}"><!--shipping-->
 							<img src="{{('frontend/images/shipping.jpg')}}" alt="" />
 						</div><!--/shipping-->

@@ -67,7 +67,7 @@ Route::get('/dashboard', [AdminController::class, 'show_dashboard'])->name('dash
 Route::post('/admin-dashboard', [AdminController::class, 'dashboard']);
 Route::get('/logout', [AdminController::class, 'logout']);
 //category admin product
-Route::prefix('categories')->group( function() {
+Route::prefix('categories')->middleware('isAdmin')->group( function() {
     Route::get('/index', [CategoryController::class, 'index'])->name('index');
     Route::get('/show/{id}', [CategoryController::class, 'show'])->name('show');
     Route::get('/edit/{id}', [CategoryController::class, 'edit'])->name('edit');
@@ -78,7 +78,7 @@ Route::prefix('categories')->group( function() {
     Route::delete('delete/{id}', [CategoryController::class, 'destroy'])->name('delete');
 });
 //brand admin product
-Route::prefix('brands')->group( function() {
+Route::prefix('brands')->middleware('isAdmin')->group( function() {
     Route::get('/index', [BrandController::class, 'index'])->name('index_brands');
     Route::get('/show/{id}', [BrandController::class, 'show'])->name('show_brands');
     Route::get('/edit/{id}', [BrandController::class, 'edit'])->name('edit_brands');
@@ -89,7 +89,7 @@ Route::prefix('brands')->group( function() {
     Route::delete('delete/{id}', [BrandController::class, 'destroy'])->name('delete_brands');
 });
 //product admin
-Route::prefix('products')->group( function() {
+Route::prefix('products')->middleware('isAdmin')->group( function() {
     Route::get('/index', [ProductController::class, 'index'])->name('index_products');
     Route::get('/show/{id}', [ProductController::class, 'show'])->name('show_product');
     Route::get('/edit/{id}', [ProductController::class, 'edit'])->name('edit_product');
