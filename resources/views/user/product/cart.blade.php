@@ -44,7 +44,7 @@
                                     </div>
                                 </td>
                                 <td class="cart_total">
-                                    <p class="cart_total_price price-{{ $item->product->id }}">
+                                    <p class="cart_total_price price-{{ $item->product->id }}" price="{{ $item->product->price * $item->quantity }}">
                                         {{ number_format($item->product->price * $item->quantity, 0, '', '.') }} ₫
                                     </p>
                                 </td>
@@ -66,12 +66,11 @@
                 <div class="col-sm-6">
                     <div class="total_area" >
                         <ul>
-                            <li>Thành tiền<span>{{ number_format($total, 0, '', '.') }} ₫</span></li>
-                            <li>Phí ship<span>{{ number_format($total * 0.001 , 0, '', '.') }} ₫</span></li>
-                            <li>Thuế<span>{{ number_format(($total + ($total * 0.001)) * 0.1 , 0, '', '.') }} ₫</span></li>
-                            <li>Tống số tiền<span>{{ number_format($total + $total * 0.1 + ($total + ($total * 0.1)) * 0.001, 0, '', '.') }} ₫</span></li>
+                            <li>Thành tiền<span id="total">{{ number_format($total, 0, '', '.') }} ₫</span></li>
+                            <li>Phí ship<span id="ship">{{ number_format($total * 0.001 , 0, '', '.') }} ₫</span></li>
+                            <li>Thuế<span id="tax">{{ number_format($total * 0.1 , 0, '', '.') }} ₫</span></li>
+                            <li>Tống số tiền<span id="amount">{{ number_format($total + $total * 0.1 + ($total) * 0.001, 0, '', '.') }} ₫</span></li>
                         </ul>
-                            <a class="btn btn-default update" href="">Update</a>
                             <a class="btn btn-default check_out" href="">Check Out</a>
                     </div>
                 </div>
@@ -84,7 +83,8 @@
 @section('script')
 <script>
     $(document).ready(function() {
-        $('.delete-button').on('click', function() {
+        $('.delete-button').on('click', function(event) {
+            event.preventDefault();
             var productId = $(this).data('product');
             if(confirm('bạn chắc chắn xóa sản phẩm này?')) {
                 $.ajaxSetup({
@@ -106,7 +106,8 @@
             }
         });
 
-        $('.cart_quantity_input').on('change', function() {
+        $('.cart_quantity_input').on('change', function(event) {
+            event.preventDefault();
             var productId = $(this).data('product');
             var quantity = $(this).val();
             var price = $(this).data('price');
@@ -125,8 +126,10 @@
                     quantity: quantity
                 }
             }).done(function(result) {
+                event.preventDefault();
                 var className = 'price-' + productId;
                 var total = parseInt(quantity) * parseInt(price);
+                $('.' + className).attr('price', total);
                 $('.' + className).text(new Intl.NumberFormat('vi-VN', {
                     style: 'currency',
                     currency: 'VND'
@@ -135,19 +138,31 @@
             });
         });
 
-        function updateMoney(){
-            console.log('update');
+        function updateMoney() {
             var total = 0;
-            var productId = $(this).data('product');
-            var quantity = $(this).val();
-            var price = $(this).data('price');
-            var sum = parseInt(quantity) * parseInt(price);
-            sum.forEach(function(tong){
-                total += tong;
+            $(".cart_total_price").each(function(i) {
+                total = total + parseInt($(this).attr('price'));
             });
-            console.log(total);
-            }
+            var ship = total * 0.001;
+            var tax = total *0.1;
+            var amount = total + ship + tax;
+            $('#total').text(new Intl.NumberFormat('vi-VN', {
+                    style: 'currency',
+                    currency: 'VND'
+                }).format(total) + '');
+            $('#ship').text(new Intl.NumberFormat('vi-VN', {
+                    style: 'currency',
+                    currency: 'VND'
+                }).format(ship) + '');
+            $('#tax').text(new Intl.NumberFormat('vi-VN', {
+                    style: 'currency',
+                    currency: 'VND'
+                }).format(tax) + '');
+            $('#amount').text(new Intl.NumberFormat('vi-VN', {
+                    style: 'currency',
+                    currency: 'VND'
+                }).format(amount) + '');
+        }
 	});
-
 </script>
 @endsection
